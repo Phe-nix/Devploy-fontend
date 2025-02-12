@@ -11,6 +11,8 @@
   import { onMount } from "svelte";
   import icon_light from "$lib/assets/icon/light_iron.png"
   import icon_black from "$lib/assets/icon/black_icon.png";
+  
+  import { PUBLIC_BASE_API } from '$env/static/public';
 
 </script>
 <div
@@ -31,13 +33,13 @@
     <Card.Content>
       <div class="flex flex-col items-center">
         <Button
+          href="{PUBLIC_BASE_API}/auth/google/login"
           on:click={() => {
-            toast.loading("Loading...");
-
-            setTimeout(() => {
-              goto("/home/applications/");
-              toast.success("Login success");
-            }, 5000); // หน่วงเวลา 5 วินาทีก่อนทำงานต่อ
+            // toast.loading("Loading...");
+            // setTimeout(() => {
+            //   goto("/home/applications/");
+            //   toast.success("Login success");
+            // }, 5000); // หน่วงเวลา 5 วินาทีก่อนทำงานต่อ
           }}
           class="my-4 p-[1.5em]"
         >
