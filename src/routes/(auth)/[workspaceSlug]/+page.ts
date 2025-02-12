@@ -1,10 +1,9 @@
-import type { PageLoad } from "../$types";
-import { PUBLIC_BASE_API } from '$env/static/public';
+import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ parent, params, fetch }) => {
 	const { accessToken } = await parent();
-	const workspaceSlug  = params;
-	const workspaceInfo = await fetch(`${PUBLIC_BASE_API}/workspace/${workspaceSlug}`, {
+	const { workspaceSlug } = params;
+	const workspaceInfo = await fetch(`http://127.0.0.1:3000/workspace/${workspaceSlug}`, {
 		headers: {
 			Authorization: `Bearer ${accessToken}`
 		}

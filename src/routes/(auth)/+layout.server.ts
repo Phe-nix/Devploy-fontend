@@ -1,6 +1,5 @@
 import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
-import { PUBLIC_BASE_API } from '$env/static/public';
 
 export const load: LayoutServerLoad = async ({ locals, cookies }) => {
 	const accessToken = cookies.get('accessToken');
@@ -8,7 +7,7 @@ export const load: LayoutServerLoad = async ({ locals, cookies }) => {
 	if (!locals.user) {
 		redirect(302, '/login');
 	}
-	const response = await fetch(`${PUBLIC_BASE_API}/workspace`, {
+	const response = await fetch('http://127.0.0.1:3000/workspace', {
 		method: 'GET',
 		headers: {
 			authorization: `Bearer ${accessToken}`

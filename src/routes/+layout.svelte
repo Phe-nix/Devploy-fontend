@@ -1,10 +1,6 @@
-<script>
-  import "../app.scss";
-  import { Toaster } from "$lib/components/ui/sonner";
-  import { ModeWatcher } from "mode-watcher";
-  
+<script lang="ts">
+	import '../app.css';
+	let { children } = $props();
 </script>
 
-<Toaster position="top-center" richColors/>
-<ModeWatcher />
-<slot />
+{@render children()}
