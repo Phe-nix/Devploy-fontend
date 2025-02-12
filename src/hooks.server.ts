@@ -7,7 +7,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	if (!accessToken) {
 		if (refreshToken) {
-			const response = await event.fetch(`${PUBLIC_BASE_API}/auth/google/refresh`, {
+			const response = await event.fetch('http://127.0.0.1:3000/auth/google/refresh', {
 				method: 'GET',
 				headers: {
 					authorization: `Bearer ${refreshToken}`
@@ -25,7 +25,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	if (accessToken) {
-		const response = await event.fetch(`${PUBLIC_BASE_API}/auth/profile`, {
+		const response = await event.fetch('http://127.0.0.1:3000/auth/profile', {
 			method: 'GET',
 			headers: {
 				authorization: `Bearer ${accessToken}`
