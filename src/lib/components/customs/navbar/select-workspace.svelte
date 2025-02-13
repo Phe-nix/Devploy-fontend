@@ -3,7 +3,7 @@
 	import { Check } from 'lucide-svelte';
 	import { CirclePlus } from 'lucide-svelte';
 
-	import { tick } from "svelte";
+	import { onMount, tick } from "svelte";
 	import { cn } from "$lib/utils.js";
 	import * as Avatar from "$lib/components/ui/avatar/index.js";
 	import { Button } from "$lib/components/ui/button/index.js";
@@ -14,7 +14,60 @@
 	import * as Popover from "$lib/components/ui/popover/index.js";
 	import * as Select from "$lib/components/ui/select/index.js";
 
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+	import axios from 'axios';
+	import { PUBLIC_BASE_API } from '$env/static/public';
+
 	let { workspaces } = $props();
+	let workspaceName = $state('');
+	let WorkspaceSlug = $derived(
+		workspaceName
+			.toLowerCase()
+			.replaceAll(' ', '-')
+			.replace(/[^a-zA-Z0-9-_\.]/g, '')
+	);
+	let selectedWorkspace = $state($page.params.workspaceSlug);
+
+	$effect(() => {
+		goto(`/${selectedWorkspace}/applications`, {
+			invalidateAll: true
+		});
+	});
+
+	let reWorkspaceName = $state('');
+	let reWorkspaceSlug = $derived(
+		reWorkspaceName
+			.toLowerCase()
+			.replaceAll(' ', '-')
+			.replace(/[^a-zA-Z0-9-_\.]/g, '')
+	);
+
+
+	const createWorkspace = async () => {
+		console.log(workspaces.accessToken)
+		try {
+			const res = await axios.post(`${PUBLIC_BASE_API}/workspace`, {
+                name: workspaceName
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: `Bearer ${workspaces.accessToken}`
+                }
+            });
+		if (res.status == 200) {
+			selectedWorkspace = WorkspaceSlug;
+			goto(`/${WorkspaceSlug}/applications`, {
+				invalidateAll: true
+			});
+			showTeamDialog = false
+		}
+		}
+		catch (e: any) {
+			console.log(e)
+		}
+	}
+
 	let className: string | undefined | null = $state(undefined);
 	export { className as class };
 
@@ -32,14 +85,12 @@
 	const ids = { trigger: 'trigger-id' }; // Define the ids object with a trigger property
 
 	let selectedTeam: Team = $state(groups[0].workspaces[0]);
-
 	function closeAndRefocusTrigger(triggerId: string) {
 		open = false;
 
 		tick().then(() => document.getElementById(triggerId)?.focus());
 	}
 </script>
-
 <Dialog.Root bind:open={showTeamDialog}>
 	<Popover.Root bind:open>
 		<Popover.Trigger>
@@ -52,13 +103,13 @@
 			>
 				<Avatar.Root class="mr-2 h-5 w-5">
 					<Avatar.Image
-						src="https://avatar.vercel.sh/${selectedTeam.name}.png"
-						alt={selectedTeam.name}
+						src="https://avatar.vercel.sh/${selectedWorkspace}.png"
+						alt={selectedWorkspace}
 					/>
 					<Avatar.Fallback>SC</Avatar.Fallback>
 				</Avatar.Root>
                 <p class="text-sm font-bold text-gray-400">
-                    {selectedTeam.name}
+                    {selectedWorkspace}
                 </p>
 				<ChevronsUpDown class="ml-auto h-4 w-4 shrink-0 opacity-50" />
 			</Button>
@@ -73,10 +124,11 @@
 							{#each group.workspaces as team}
 								<Command.Item
 									onSelect={() => {
+										selectedWorkspace = team.slug
 										selectedTeam = team;
 										closeAndRefocusTrigger(ids.trigger);
 									}}
-									value={team.name}
+									value={team.slug}
 									class="text-sm"
 								>
 									<Avatar.Root class="mr-2 h-5 w-5">
@@ -117,7 +169,7 @@
 	</Popover.Root>
 	<Dialog.Content>
 		<Dialog.Header>
-			<Dialog.Title>Create team</Dialog.Title>
+			<Dialog.Title>Create new workspace</Dialog.Title>
 			<Dialog.Description>
 				Add a new workspace to manage products and customers.
 			</Dialog.Description>
@@ -126,13 +178,13 @@
 			<div class="space-y-4 py-2 pb-4">
 				<div class="space-y-2">
 					<Label for="name">name</Label>
-					<Input id="name" placeholder="Acme Inc." />
+					<Input bind:value={workspaceName} id="name" placeholder="Acme Inc." />
 				</div>
 			</div>
 		</div>
 		<Dialog.Footer>
 			<Button variant="outline" onclick={() => showTeamDialog = false}>Cancel</Button>
-			<Button type="submit">Continue</Button>
+			<Button type="submit" onclick={() => createWorkspace()}>Continue</Button>
 		</Dialog.Footer>
 	</Dialog.Content>
 </Dialog.Root>
