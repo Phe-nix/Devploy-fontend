@@ -15,6 +15,7 @@ export const load: LayoutServerLoad = async ({ locals, cookies }) => {
 	});
 	return {
 		accessToken,
-        workspace: response.ok ? await response.json() : []
+        workspace: response.ok ? await response.json() : [],
+		userProfile: locals.user
 	};
 };
