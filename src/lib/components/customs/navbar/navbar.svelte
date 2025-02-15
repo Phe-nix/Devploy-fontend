@@ -16,6 +16,7 @@
 
     //PropData data
     let { workspaces } = $props()
+	console.log(workspaces)
 </script>
 
 <div class="max-sm:hidden w-full py-2 mb-6 px-10 border-b bg-card text-card-foreground shadow-sm">
@@ -36,7 +37,7 @@
 		</div>
 		<div class="flex flex-row items-center space-x-5">
 			<SelectWorkspace {workspaces}/>
-			<SettingProfile />
+			<SettingProfile userProfile={workspaces.userProfile}/>
 			<DarkLightMode />
 		</div>
 	</div>
@@ -73,6 +74,6 @@
 			</Sheet.Root>
 			<SelectWorkspace {workspaces}/>
 		</div>
-		<SettingProfile />
+		<SettingProfile userProfile={workspaces.userProfile}/>
 	</div>
 </div>
