@@ -6,7 +6,6 @@
 	import { Computer } from 'lucide-svelte';
 
 	let type = $props();
-	console.log(type)
 </script>
 
 {#if type.type == 'database'}
