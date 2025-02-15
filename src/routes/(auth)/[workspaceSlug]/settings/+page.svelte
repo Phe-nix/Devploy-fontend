@@ -9,13 +9,14 @@
 
 	// import components
 	import Sidebar from '$lib/components/ui/sidebar/sidebar.svelte';
-	// import Profile from "$lib/components/custom/setting-user/page/profile.svelte";
-	// import Appearance from "$lib/components/custom/setting-user/page/appearance.svelte";
+	import Profile from '$lib/components/customs/settings/profilePage/profile.svelte';
+	import Appearance from '$lib/components/customs/settings/appearancePage/appearance.svelte';
 	// import Users from "$lib/components/custom/setting-user/page/data-table-users/users.svelte";
 	// import DockerSwarms from "$lib/components/custom/admin/cluster/docker-swarms.svelte";
-	// import Workspaces from "$lib/components/custom/setting-user/page/workspaces.svelte";
+	import Workspaces from '$lib/components/customs/settings/workspacesPage/workspaces.svelte';
 
 	import { User } from 'lucide-svelte';
+	import type { PageProps } from './$types';
 
 	let nowPageSide = $state('Profile');
 
@@ -34,7 +35,7 @@
 		}
 	]);
 
-	let className: string | undefined | null = undefined;
+	let className: string | undefined | null = $state(undefined);
 	export { className as class };
 	const [send, receive] = crossfade({
 		duration: 250,
@@ -42,11 +43,13 @@
 	});
 
 	let isActive: boolean = true;
-	let title: string = $state(nowPageSide);
+	let title: string = $state('');
 	const active = (text: string) => {
 		title = text;
 		nowPageSide = text;
 	};
+
+	let data : PageProps = $props();
 </script>
 
 <Card.Root>
@@ -91,11 +94,11 @@
 				</aside>
 				<div class="flex-1 lg:max-w-4xl md:max-w-xl">
 					{#if nowPageSide === 'Profile'}
-						<!-- <Profile /> -->
+						<Profile {data}/>
 					{:else if nowPageSide === 'Appearance'}
-						<!-- <Appearance /> -->
+						<Appearance />
 					{:else if nowPageSide === 'Workspaces'}
-						<!-- <Workspaces /> -->
+						<Workspaces />
 					{/if}
 				</div>
 			</div>

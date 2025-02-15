@@ -9,7 +9,22 @@
 	// import data
 	import type { LayoutProps } from './$types';
 	import { goto } from '$app/navigation';
-    import { page } from '$app/stores';
+	import { page } from '$app/stores';
+
+	const tabs = [
+		{
+			title: 'applications',
+			value: 'app'
+		},
+		{
+			title: 'databases',
+			value: 'database'
+		},
+		{
+			title: 'settings',
+			value: 'setting'
+		}
+	];
 
 	let { data, children }: LayoutProps = $props();
 </script>
@@ -26,19 +41,30 @@
 		</div>
 		<Tabs.Root value="app" class="w-full pt-6">
 			<Tabs.List class="grid w-full grid-cols-3">
-				<Tabs.Trigger value="app" onclick={() => { goto(`/${$page.params.workspaceSlug}/applications`)}}>Applications</Tabs.Trigger>
-				<Tabs.Trigger value="database" onclick={() => { goto(`/${$page.params.workspaceSlug}/databases`)}}>Databases</Tabs.Trigger>
-				<Tabs.Trigger value="setting" onclick={() => { goto(`/${$page.params.workspaceSlug}/settings`)}}>Setting</Tabs.Trigger>
+				<Tabs.Trigger
+					value="app"
+					onclick={() => {
+						goto(`/${$page.params.workspaceSlug}/applications`);
+					}}>Applications</Tabs.Trigger
+				>
+				<Tabs.Trigger
+					value="database"
+					onclick={() => {
+						goto(`/${$page.params.workspaceSlug}/databases`);
+					}}>Databases</Tabs.Trigger
+				>
+				<Tabs.Trigger
+					value="setting"
+					onclick={() => {
+						goto(`/${$page.params.workspaceSlug}/settings`);
+					}}>Setting</Tabs.Trigger
+				>
 			</Tabs.List>
-			<Tabs.Content value="app">
-				{@render children()}
-			</Tabs.Content>
-			<Tabs.Content value="database">
-				{@render children()}
-			</Tabs.Content>
-			<Tabs.Content value="setting">
-				{@render children()}
-			</Tabs.Content>
+			{#each tabs as item}
+				<Tabs.Content value={item.value}>
+					{@render children()}
+				</Tabs.Content>
+			{/each}
 		</Tabs.Root>
 	</div>
 </div>
