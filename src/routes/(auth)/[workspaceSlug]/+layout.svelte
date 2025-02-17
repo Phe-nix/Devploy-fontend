@@ -56,7 +56,7 @@
 				<Tabs.Trigger
 					value="setting"
 					onclick={() => {
-						goto(`/${$page.params.workspaceSlug}/settings`);
+						goto(`/${$page.params.workspaceSlug}/settings/profile`);
 					}}>Setting</Tabs.Trigger
 				>
 			</Tabs.List>
