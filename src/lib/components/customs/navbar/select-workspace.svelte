@@ -30,11 +30,12 @@
 	);
 	let selectedWorkspace = $state($page.params.workspaceSlug);
 
-	$effect(() => {
-		goto(`/${selectedWorkspace}/applications`, {
-			invalidateAll: true
-		});
-	});
+	// $effect(() => {
+	// 	console.log('refresh page');
+	// 	goto(`/${selectedWorkspace}/applications`, {
+	// 		invalidateAll: true
+	// 	});
+	// });
 
 	let reWorkspaceName = $state('');
 	let reWorkspaceSlug = $derived(
@@ -133,6 +134,9 @@
 										selectedWorkspace = team.slug;
 										selectedTeam = team;
 										closeAndRefocusTrigger(ids.trigger);
+										goto(`/${selectedWorkspace}/applications`, {
+											invalidateAll: true
+										});
 									}}
 									value={team.slug}
 									class="text-sm"
