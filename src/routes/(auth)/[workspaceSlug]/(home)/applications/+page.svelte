@@ -8,8 +8,13 @@
 
     // compoente
     import CardApp from "$lib/components/customs/applications/card-app.svelte"; 
+	import type { PageProps } from "./$types";
 
-    let applications = $state('')
+    let { data }: PageProps = $props();
+
+    console.log(data.info.Appication)
+
+    let applications = $state(data.info.Appication)
     let search = $state()
 </script>
 
@@ -39,7 +44,7 @@
               class="flex flex-row gap-3 flex-wrap items-center justify-center "
             >
               {#each applications as service}
-                <CardApp {service} />
+                <CardApp {service}/>
               {/each}
             </div>
           </ScrollArea>
