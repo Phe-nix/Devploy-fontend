@@ -3,6 +3,7 @@
     import SelectWorkspace from './select-workspace.svelte';
     import SettingProfile from './setting-profile.svelte';
     import DarkLightMode from '../dark-light-mode/dark-light-mode.svelte';
+	import { page } from '$app/stores';
 
 	// import shadcn-svelte
 	import { Button } from '$lib/components/ui/button';
@@ -21,11 +22,11 @@
 <div class="max-sm:hidden w-full py-2 mb-6 px-10 border-b bg-card text-card-foreground shadow-sm">
 	<div class="flex flex-row justify-between">
 		<div class="flex flex-row items-center space-x-10">
-			<a href="/home/applications" class="text-2xl font-bold hidden dark:block">
+			<a href="/{$page.params.workspaceSlug}/applications" class="text-2xl font-bold hidden dark:block">
 				<!-- <img src={icon_light} class="size-10" alt="LOGO" /> -->
                  LOGO
 			</a>
-			<a href="/home/applications" class="text-2xl font-bold block dark:hidden">
+			<a href="/{$page.params.workspaceSlug}/applications" class="text-2xl font-bold block dark:hidden">
                  LOGO
 			</a>
 			<Button variant="ghost" class="text-sm font-medium text-muted-foreground">Docs</Button>
@@ -52,11 +53,11 @@
 				</Sheet.Trigger>
 				<Sheet.Content side="left">
 					<div class="flex flex-col z-50 gap-2 p-2 inset-y-0 left-0 h-full w-3/4 sm:max-w-sm pr-0">
-						<a href="/home/applications" class="text-foreground/60 items-center hidden dark:block">
+						<a href="/{$page.params.workspaceSlug}/applications" class="text-foreground/60 items-center hidden dark:block">
 							<!-- <img src={icon_light} class="size-10" alt="LOGO" /> -->
                              LOGO
 						</a>
-						<a href="/home/applications" class="text-foreground/60 items-center block dark:hidden">
+						<a href="/{$page.params.workspaceSlug}/applications" class="text-foreground/60 items-center block dark:hidden">
 							<!-- <img src={icon_black} class="size-10" alt="LOGO" /> -->
                              LOGO
 						</a>
