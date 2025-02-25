@@ -312,7 +312,6 @@
 						toast.promise(req, {
 							loading: 'Loading...',
 							success: (data) => {
-								console.log(data.data);
 								const res = data;
 								const { applicationId } = res.data;
 								goto(`/${$page.params.workspaceSlug}/application/${applicationId}`);
