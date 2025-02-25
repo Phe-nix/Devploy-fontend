@@ -19,7 +19,7 @@
     let { workspaces } = $props()
 </script>
 
-<div class="max-sm:hidden w-full py-2 mb-6 px-10 border-b bg-card text-card-foreground shadow-sm">
+<div class="max-sm:hidden w-full py-2 mb-6 px-10 border-b bg-card text-card-foreground shadow-sm sticky top-0 z-50">
 	<div class="flex flex-row justify-between">
 		<div class="flex flex-row items-center space-x-10">
 			<a href="/{$page.params.workspaceSlug}/applications" class="text-2xl font-bold hidden dark:block">

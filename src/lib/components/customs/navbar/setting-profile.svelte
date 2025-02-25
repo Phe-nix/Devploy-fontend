@@ -3,27 +3,32 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 
 	// import SVG
 	import { LogOut } from 'lucide-svelte';
-	import { UserRound } from 'lucide-svelte';
 	import { Settings } from 'lucide-svelte';
-	import { goto } from '$app/navigation';
-	import type { ActionData } from '../../../../routes/(auth)/[workspaceSlug]/$types';
+	import { toast } from 'svelte-sonner';
 
 	const { userProfile } = $props();
+	let isopen = $state(false);
 </script>
 
-<DropdownMenu.Root>
-	<DropdownMenu.Trigger>
-		<Button variant="ghost">
-			<Avatar.Root>
-				<Avatar.Image src={userProfile.picture} alt="@shadcn" />
-				<Avatar.Fallback>CN</Avatar.Fallback>
-			</Avatar.Root>
-		</Button>
-	</DropdownMenu.Trigger>
-	<form action="">
+<AlertDialog.Root
+	open={isopen}
+	onOpenChange={(open) => {
+		isopen = open;
+	}}
+>
+	<DropdownMenu.Root>
+		<DropdownMenu.Trigger>
+			<Button variant="ghost">
+				<Avatar.Root>
+					<Avatar.Image src={userProfile.picture} alt="@shadcn" />
+					<Avatar.Fallback>CN</Avatar.Fallback>
+				</Avatar.Root>
+			</Button>
+		</DropdownMenu.Trigger>
 		<DropdownMenu.Content align="start" class="w-56 ">
 			<DropdownMenu.Label class="text-lg"
 				>{userProfile.firstName} {userProfile.lastName}</DropdownMenu.Label
@@ -35,13 +40,42 @@
 			</DropdownMenu.Item>
 			<DropdownMenu.Separator />
 			<DropdownMenu.Item>
-				<form>
-					<button type="submit" formaction="?/logout" class="text-destructive font-bold flex flex-row gap-x-2 cursor-pointer">
+				<AlertDialog.Trigger>
+					<button class="text-destructive font-bold flex flex-row gap-x-2 cursor-pointer">
 						<LogOut />
 						Sign out
 					</button>
-				</form>
+				</AlertDialog.Trigger>
 			</DropdownMenu.Item>
 		</DropdownMenu.Content>
-	</form>
-</DropdownMenu.Root>
+	</DropdownMenu.Root>
+	<AlertDialog.Content>
+		<AlertDialog.Header>
+			<AlertDialog.Title>Are you sure to Logout?</AlertDialog.Title>
+			<AlertDialog.Description>
+				This action cannot be undone. This will permanently logout your account.
+			</AlertDialog.Description>
+		</AlertDialog.Header>
+		<AlertDialog.Footer>
+			<AlertDialog.Cancel>Nope</AlertDialog.Cancel>
+			<AlertDialog.Action
+				onclick={async () => {
+					let LogOut = new Promise<void>((resolve) => {
+						location.href = '/logout';
+						resolve();
+					});
+
+					toast.promise(LogOut, {
+						loading: 'Loading...',
+						success: () => {
+							return 'Account has been Logouted';
+						},
+						error: (e: any) => {
+							return e.message;
+						}
+					});
+				}}>Yes</AlertDialog.Action
+			>
+		</AlertDialog.Footer>
+	</AlertDialog.Content>
+</AlertDialog.Root>
