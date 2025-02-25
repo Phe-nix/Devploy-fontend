@@ -2,7 +2,6 @@
 	import * as Avatar from '$lib/components/ui/avatar';
     import KickUserWorkspace from '$lib/components/customs/settings/membersPage/kick-user-workspace.svelte';
 	let { data } = $props();
-	console.log(data);
 </script>
 
 <div class="space-y-12">
