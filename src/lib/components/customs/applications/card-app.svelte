@@ -28,7 +28,7 @@
 	<button
 		class="z-0"
 		onclick={() => {
-			goto(`/${$page.params.workspaceSlug}/application/${service.id}`);
+			goto(`/${$page.params.workspaceSlug}/application/${service.id}/info`);
 		}}
 	>
 		<div
