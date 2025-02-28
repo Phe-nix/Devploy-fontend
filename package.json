@@ -46,6 +46,7 @@
 		"zod": "^3.24.2"
 	},
 	"dependencies": {
+		"@tanstack/table-core": "^8.21.2",
 		"svelte-headless-table": "^0.18.3"
 	}
 }
