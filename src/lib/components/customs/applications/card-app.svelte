@@ -16,11 +16,6 @@
 	// import EditServices from "./applications/edit-services.svelte";
 	// import AlertDelete from "./applications/alert-delete.svelte";
 
-	let generateImg = (url: string) => {
-		const match = url.match(/^https:\/\/github\.com\/([^\/]+)\//);
-		return match ? match[1] : null;
-	};
-
 	let { service } = $props();
 </script>
 
@@ -36,7 +31,7 @@
 		>
 			<div class="flex space-x-5 items-center z-10">
 				<Avatar.Root>
-					<Avatar.Image src={`https://github.com/${generateImg(service.gitHub)}.png`} />
+					<Avatar.Image src={`https://github.com/${service.buildPack}.png`} />
 					<Avatar.Fallback>CN</Avatar.Fallback>
 				</Avatar.Root>
 				<div class="flex flex-col items-start space-y-2">
