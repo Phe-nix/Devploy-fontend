@@ -9,8 +9,7 @@
 	// import data
 	import type { LayoutProps } from './$types';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-
+	import { page } from '$app/state';
 	const tabs = [
 		{
 			title: 'applications',
@@ -34,13 +33,13 @@
 		<h2
 			class="scroll-m-20 pb-2 text-2xl sm:text-3xl font-semibold tracking-tight transition-colors first:mt-0"
 		>
-			{$page.params.workspaceSlug}
+			{page.params.workspaceSlug}
 		</h2>
-		{#if $page.url.pathname == '/' + $page.params.workspaceSlug + '/applications' || $page.url.pathname == '/' + $page.params.workspaceSlug + '/applications/'}
+		{#if page.url.pathname == '/' + page.params.workspaceSlug + '/applications' || page.url.pathname == '/' + page.params.workspaceSlug + '/applications/'}
 			<Button
 				size="sm"
 				onclick={() => {
-					goto(`/${$page.params.workspaceSlug}/new/application`);
+					goto(`/${page.params.workspaceSlug}/new/application`);
 				}}
 			>
 				<Plus class="size-6" />
@@ -53,24 +52,24 @@
 			<Tabs.Trigger
 				value="app"
 				onclick={() => {
-					goto(`/${$page.params.workspaceSlug}/applications`);
+					goto(`/${page.params.workspaceSlug}/applications`);
 				}}>Applications</Tabs.Trigger
 			>
 			<Tabs.Trigger
 				value="database"
 				onclick={() => {
-					goto(`/${$page.params.workspaceSlug}/databases`);
+					goto(`/${page.params.workspaceSlug}/databases`);
 				}}>Databases</Tabs.Trigger
 			>
 			<Tabs.Trigger
 				value="setting"
 				onclick={() => {
-					goto(`/${$page.params.workspaceSlug}/settings/profile`);
+					goto(`/${page.params.workspaceSlug}/settings/profile`);
 				}}>Setting</Tabs.Trigger
 			>
 		</Tabs.List>
 		{#each tabs as item}
-			<Tabs.Content value={item.value}>
+			<Tabs.Content value={item.value} aria-current={page.url.pathname.includes(item.value)}>
 				{@render children()}
 			</Tabs.Content>
 		{/each}

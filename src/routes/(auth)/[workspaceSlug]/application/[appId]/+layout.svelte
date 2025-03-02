@@ -12,7 +12,6 @@
 	import { goto } from '$app/navigation';
 
 	let { data, children }: LayoutProps = $props();
-	console.log(data);
 </script>
 
 <div>
@@ -50,9 +49,12 @@
 				goto(`/${$page.params.workspaceSlug}/application/${$page.params.appId}/logs`);
 			}}>Logs</Tabs.Trigger
 		>
-		<Tabs.Trigger value="setting" onclick={() => {
-			goto(`/${$page.params.workspaceSlug}/application/${$page.params.appId}/settings`);
-		}}>Settings</Tabs.Trigger>
+		<Tabs.Trigger
+			value="setting"
+			onclick={() => {
+				goto(`/${$page.params.workspaceSlug}/application/${$page.params.appId}/settings`);
+			}}>Settings</Tabs.Trigger
+		>
 		<Tabs.Trigger value="domain">Domains</Tabs.Trigger>
 	</Tabs.List>
 	<Tabs.Content value="general">

@@ -56,7 +56,6 @@
 						return 'Application rename successful.';
 					},
 					error: (e: any) => {
-						console.log(e);
 						return e.message;
 					}
 				});
@@ -97,7 +96,6 @@
 						return 'URL application have been changed.';
 					},
 					error: (e: any) => {
-						console.log(e);
 						return e.message;
 					}
 				});

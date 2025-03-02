@@ -39,7 +39,6 @@
 	let { data }: Props = $props();
 
 	const deployApllication = () => {
-		console.log(data);
 		const req = axios.post(
 			`${PUBLIC_BASE_API}/application/${data.appInfo.id}/deploy`,
 			{},
@@ -57,7 +56,6 @@
 				return data.appInfo.name + ' has been Deployed';
 			},
 			error: (e: any) => {
-				console.log(e);
 				return e.message;
 			}
 		});

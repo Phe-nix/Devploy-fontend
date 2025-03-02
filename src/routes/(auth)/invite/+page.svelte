@@ -3,7 +3,6 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	console.log(data);
 
 	const acceptInvite = async (slug: string) => {
 		const res = await fetch(`http://127.0.0.1:3000/invite/${slug}`, {
@@ -14,7 +13,6 @@
 			}
 		});
 		if (res.ok) {
-			console.log('accepted');
 			invalidateAll();
 		}
 	};
@@ -28,7 +26,6 @@
 			}
 		});
 		if (res.ok) {
-			console.log('deleted');
 			invalidateAll();
 		}
 	};

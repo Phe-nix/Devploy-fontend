@@ -6,7 +6,6 @@
 	import { page } from '$app/state';
 	let { children } = $props();
 
-    console.log(page.params)
 </script>
 
 <Sidebar.Provider>

@@ -58,7 +58,6 @@
 		);
 		if (res.ok) {
 			const data = await res.json();
-			console.log(data);
 			return data;
 		} else {
 			const error = await res.json();
@@ -83,7 +82,6 @@
 		);
 		if (res.ok) {
 			const data = await res.json();
-			console.log(data);
 			return data;
 		} else {
 			const error = await res.json();
@@ -314,7 +312,7 @@
 							success: (data) => {
 								const res = data;
 								const { applicationId } = res.data;
-								goto(`/${$page.params.workspaceSlug}/application/${applicationId}`);
+								goto(`/${$page.params.workspaceSlug}/application/${applicationId}/info`);
 								return applicationName + ' has been Created';
 							},
 							error: (e: any) => {
