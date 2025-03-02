@@ -12,6 +12,11 @@
 	} from '$lib/types/validate/application/confirm-delete-schema';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { toast } from 'svelte-sonner';
+	import axios from 'axios';
+	import { PUBLIC_BASE_API } from '$env/static/public';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 
 	let {
 		data
@@ -24,7 +29,20 @@
 
 	const form = superForm(data.form, {
 		validators: zodClient(confirmDeleteForm),
-        id: crypto.randomUUID()
+		id: crypto.randomUUID(),
+
+		onUpdated({ form }) {
+			if (form.valid) {
+				goto(`/${page.params.workspaceSlug}/applications`);
+				isOpen = false;
+				toast.success('Application deleted successfully');
+			} else if (!form.valid) {
+				toast.error('Form is invalid. Please check the fields and try again');
+			}
+		},
+		onError({ result }) {
+			toast.error('Something went wrong. Please try again');
+		}
 	});
 
 	const { form: formData, enhance } = form;
@@ -85,7 +103,13 @@
 						isOpen = false;
 					}}>Cancel</Button
 				>
-				<Form.Button type="submit" class="my-4 bg-destructive">Submit</Form.Button>
+				<Form.Button
+					type="submit"
+					class="my-4 bg-destructive"
+					onsubmit={() => {
+						toast.success('Application deleted successfully');
+					}}>Submit</Form.Button
+				>
 			</div>
 		</form>
 	</Dialog.Content>
