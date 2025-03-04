@@ -13,6 +13,8 @@
 	import { PUBLIC_BASE_API } from '$env/static/public';
 	import { toast } from 'svelte-sonner';
 	import { invalidateAll } from '$app/navigation';
+	import { Globe } from 'lucide-svelte';
+	import Input from '$lib/components/ui/input/input.svelte';
 
 	const stacks = [
 		{
@@ -28,7 +30,7 @@
 		{
 			name: 'Static',
 			value: 'static',
-			img: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="#fff" d="m16 2l5 5v14.008a.993.993 0 0 1-.993.992H3.993A1 1 0 0 1 3 21.008V2.992C3 2.444 3.445 2 3.993 2zm-5 13v2h2v-2zm2-1.645A3.502 3.502 0 0 0 12 6.5a3.5 3.5 0 0 0-3.433 2.813l1.962.393A1.5 1.5 0 1 1 12 11.5a1 1 0 0 0-1 1V14h2z"/></svg>'
+			img: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 12 12"><path fill="#ffcc95" fill-rule="evenodd" d="M6 12A6 6 0 1 1 6 0a6 6 0 0 1 0 12M3.324 4.643q0-.47.32-.953q.321-.483.935-.8t1.433-.317q.762 0 1.344.265q.584.265.9.72q.318.457.318.991q0 .422-.18.738q-.182.317-.431.548q-.25.23-.895.775a4 4 0 0 0-.287.27a1 1 0 0 0-.16.213c-.289.667-1.543.592-1.302-.342a1.8 1.8 0 0 1 .363-.535q.225-.23.609-.547q.335-.278.485-.419t.252-.314a.73.73 0 0 0 .103-.377a.85.85 0 0 0-.313-.669q-.312-.272-.806-.272q-.577 0-.85.275q-.273.274-.462.81q-.18.56-.677.56a.7.7 0 0 1-.496-.196q-.203-.195-.203-.424M6 9.75a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5"/></svg>'
 		}
 	];
 
@@ -60,6 +62,44 @@
 			}
 		});
 	};
+
+	let newInstallCommand = $state(data.appInfo.config.installCommand || '');
+	let newBuildCommand = $state(data.appInfo.config.buildCommand || '');
+	let newStartCommand = $state(data.appInfo.config.startCommand || '');
+	let newPort = $state(data.appInfo.config.port || '');
+
+	const buildCongfig = () => {
+		const application = data.appInfo;
+		const config = {
+			...application.config,
+			installCommand: newInstallCommand,
+			buildCommand: newBuildCommand,
+			startCommand: newStartCommand,
+			port: newPort
+		};
+		const req = axios.put(
+			`${PUBLIC_BASE_API}/application/${data.appInfo.id}`,
+			{
+				config
+			},
+			{
+				headers: {
+					'Content-Type': 'application/json',
+					authorization: `Bearer ${data.accessToken}`
+				}
+			}
+		);
+		toast.promise(req, {
+			loading: 'Loading...',
+			success: () => {
+				invalidateAll();
+				return data.appInfo.name + ' config has been updated';
+			},
+			error: (e: any) => {
+				return e.message;
+			}
+		});
+	};
 </script>
 
 <div class="my-4 flex flex-col space-y-5">
@@ -71,24 +111,46 @@
 				deployApllication();
 			}}>Deploy</Button
 		>
-		<Button size="sm" variant="secondary" class="gap-1.5">
-			Reload
-			<RefreshCcw class="size-4" />
-		</Button>
-		<Button size="sm" variant="secondary" class="gap-1.5">
-			Rebuild
-			<Hammer class="size-4" />
-		</Button>
-		<Button size="sm" variant="secondary" class="gap-1.5">
-			Start
-			<CirclePlay class="size-4" />
-		</Button>
 	</div>
 	<Separator />
+	{#if data.appInfo.buildPack != 'static'}
+		<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Update config</h3>
+		<div class="flex flex-col gap-3 px-10">
+			<div class="flex flex-col gap-2">
+				<Label class="text-muted-foreground" for="terms">Install command</Label>
+				<Input class="" type="text" placeholder="install command" bind:value={newInstallCommand} />
+			</div>
+			<div class="flex flex-col gap-2">
+				<Label class="text-muted-foreground" for="terms">Build command</Label>
+				<Input class="" type="text" placeholder="build command" bind:value={newBuildCommand} />
+			</div>
+			<div class="flex flex-col gap-2">
+				<Label class="text-muted-foreground" for="terms">Start command</Label>
+				<Input class="" type="text" placeholder="start command" bind:value={newStartCommand} />
+			</div>
+			<div class="flex flex-col gap-2">
+				<Label class="text-muted-foreground" for="terms">Port</Label>
+				<Input class="" type="text" placeholder="port" bind:value={newPort} />
+			</div>
+			<Button
+				size="sm"
+				class="w-22 self-end my-2"
+				onclick={() => {
+					buildCongfig();
+				}}>Update</Button
+			>
+		</div>
+		<Separator />
+	{/if}
 	<div class="grid grid-cols-2 gap-4">
 		<div class="flex flex-col gap-2">
 			<Label class="text-muted-foreground" for="terms">Deployment</Label>
-			<p class="font-semibold">{data.appInfo.url}</p>
+			<div class="flex items-center gap-2">
+				<Globe class="size-5" />
+				<a href="http://{data.appInfo.url}.localhost" class="font-semibold hover:underline"
+					>{data.appInfo.url}.localhost</a
+				>
+			</div>
 		</div>
 		<div class="flex flex-col gap-2">
 			<Label class="text-muted-foreground" for="terms">Name</Label>
