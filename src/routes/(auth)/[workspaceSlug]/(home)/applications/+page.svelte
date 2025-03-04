@@ -39,7 +39,7 @@
 				<ScrollArea class="w-fit h-[25em] xl:h-[34em] md:h-[28em]">
 					<div class="flex flex-row gap-3 flex-wrap items-center justify-center">
 						{#each applications as service}
-							<CardApp {service} />
+							<CardApp {service} info={data}/>
 						{/each}
 					</div>
 				</ScrollArea>
