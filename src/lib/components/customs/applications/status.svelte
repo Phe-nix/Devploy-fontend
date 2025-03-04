@@ -5,7 +5,7 @@
 	import { Earth } from 'lucide-svelte';
 
 	// props
-	let status = $props();
+	let { status } = $props();
 </script>
 
 {#if status == 'inProgress'}
