@@ -16,7 +16,8 @@
 	// import EditServices from "./applications/edit-services.svelte";
 	// import AlertDelete from "./applications/alert-delete.svelte";
 
-	let { service } = $props();
+	let { service, info } = $props();
+	console.log(info);
 </script>
 
 <div class="relative">
@@ -32,7 +33,7 @@
 			<div class="flex space-x-5 items-center z-10">
 				<Avatar.Root>
 					<Avatar.Image src={`https://github.com/${service.buildPack}.png`} />
-					<Avatar.Fallback>CN</Avatar.Fallback>
+					<Avatar.Fallback>?</Avatar.Fallback>
 				</Avatar.Root>
 				<div class="flex flex-col items-start space-y-2">
 					<div class="flex items-center gap-x-2">
@@ -47,9 +48,9 @@
 							<div class="p-1 rounded bg-gray-500"></div>
 						{/if}
 					</div>
-					<p class="text-sm text-muted-foreground">
+					<!-- <p class="text-sm text-muted-foreground">
 						Create at {service.time} minutes ago
-					</p>
+					</p> -->
 				</div>
 			</div>
 			<div class="mt-4 text-left">
