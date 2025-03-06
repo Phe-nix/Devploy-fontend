@@ -17,7 +17,6 @@
 	// import AlertDelete from "./applications/alert-delete.svelte";
 
 	let { service, info } = $props();
-	console.log(info);
 </script>
 
 <div class="relative">
