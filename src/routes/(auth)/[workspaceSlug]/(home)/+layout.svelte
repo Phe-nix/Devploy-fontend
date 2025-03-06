@@ -39,11 +39,21 @@
 			<Button
 				size="sm"
 				onclick={() => {
-					goto(`/${page.params.workspaceSlug}/new/application`);
+					goto(`/${page.params.workspaceSlug}/new/application`, { invalidateAll: true });
 				}}
 			>
 				<Plus class="size-6" />
 				<p class="">Deploy Applications</p>
+			</Button>
+		{:else if page.url.pathname == '/' + page.params.workspaceSlug + '/databases' || page.url.pathname == '/' + page.params.workspaceSlug + '/databases/'}
+			<Button
+				size="sm"
+				onclick={() => {
+					goto(`/${page.params.workspaceSlug}/new/database`, { invalidateAll: true });
+				}}
+			>
+				<Plus class="size-6" />
+				<p class="">Deploy Database</p>
 			</Button>
 		{/if}
 	</div>
@@ -69,7 +79,7 @@
 			>
 		</Tabs.List>
 		{#each tabs as item}
-			<Tabs.Content value={item.value} aria-current={page.url.pathname.includes(item.value)}>
+			<Tabs.Content value={item.value}>
 				{@render children()}
 			</Tabs.Content>
 		{/each}

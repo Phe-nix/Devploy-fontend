@@ -13,7 +13,7 @@
 				default: "h-10 min-w-10 px-3",
 				sm: "h-9 min-w-9 px-2.5",
 				lg: "h-11 min-w-11 px-5",
-				xl: "h-20 min-w-22 px-10"
+				xl: "h-32 min-w-22 px-10"
 			},
 		},
 		defaultVariants: {

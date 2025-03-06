@@ -7,8 +7,12 @@
     // import components
     import EmtpyApp from "$lib/components/customs/applications/emtpy-app.svelte";
     import CardApp from "$lib/components/customs/applications/card-app.svelte";
-  
-    let services = $state('')
+    import CardDb from "$lib/components/customs/databases/card-db.svelte";
+    
+    let { data } = $props();
+    let services = $state(data.info.Database);
+
+    console.log(data)
   </script>
   
   <Card.Root>
@@ -36,7 +40,7 @@
               class="flex flex-row gap-3 flex-wrap items-center justify-center"
             >
               {#each services as service}
-                <CardApp {service} />
+                <CardDb {service} info={data} />
               {/each}
             </div>
           </ScrollArea>
