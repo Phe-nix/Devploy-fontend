@@ -10,11 +10,13 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
 	import * as Accordion from '$lib/components/ui/accordion/index.js';
+	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
 
 	// SVG Icons
 	import { LoaderCircle } from 'lucide-svelte';
 	import { GitBranch } from 'lucide-svelte';
 	import { Github } from 'lucide-svelte';
+	import { Info } from 'lucide-svelte';
 
 	// import components
 
@@ -276,7 +278,17 @@
 								<Accordion.Content>
 									<div class="flex flex-col gap-3 px-10">
 										<div class="flex flex-col gap-2">
-											<Label class="text-muted-foreground" for="terms">Install command</Label>
+											<div class="flex items-center gap-2">
+												<Label class="text-muted-foreground" for="terms">Install command</Label>
+												<Tooltip.Provider>
+													<Tooltip.Root>
+														<Tooltip.Trigger><Info class="size-3" /></Tooltip.Trigger>
+														<Tooltip.Content>
+															<p>The command your frontend framework provides for compiling your code.</p>
+														</Tooltip.Content>
+													</Tooltip.Root>
+												</Tooltip.Provider>
+											</div>
 											<Input
 												class=""
 												type="text"
@@ -285,7 +297,17 @@
 											/>
 										</div>
 										<div class="flex flex-col gap-2">
-											<Label class="text-muted-foreground" for="terms">Build command</Label>
+											<div class="flex items-center gap-2">
+												<Label class="text-muted-foreground" for="terms">Build command</Label>
+												<Tooltip.Provider>
+													<Tooltip.Root>
+														<Tooltip.Trigger><Info class="size-3" /></Tooltip.Trigger>
+														<Tooltip.Content>
+															<p>The command your framework provides for build code.</p>
+														</Tooltip.Content>
+													</Tooltip.Root>
+												</Tooltip.Provider>
+											</div>
 											<Input
 												class=""
 												type="text"
@@ -294,7 +316,17 @@
 											/>
 										</div>
 										<div class="flex flex-col gap-2">
-											<Label class="text-muted-foreground" for="terms">Start command</Label>
+											<div class="flex items-center gap-2">
+												<Label class="text-muted-foreground" for="terms">Start command</Label>
+												<Tooltip.Provider>
+													<Tooltip.Root>
+														<Tooltip.Trigger><Info class="size-3" /></Tooltip.Trigger>
+														<Tooltip.Content>
+															<p>The command run location file to run the project.</p>
+														</Tooltip.Content>
+													</Tooltip.Root>
+												</Tooltip.Provider>
+											</div>
 											<Input
 												class=""
 												type="text"
@@ -303,7 +335,17 @@
 											/>
 										</div>
 										<div class="flex flex-col gap-2">
-											<Label class="text-muted-foreground" for="terms">Port</Label>
+											<div class="flex items-center gap-2">
+												<Label class="text-muted-foreground" for="terms">Port</Label>
+												<Tooltip.Provider>
+													<Tooltip.Root>
+														<Tooltip.Trigger><Info class="size-3" /></Tooltip.Trigger>
+														<Tooltip.Content>
+															<p>Ports you want to deploy this project.</p>
+														</Tooltip.Content>
+													</Tooltip.Root>
+												</Tooltip.Provider>
+											</div>
 											<Input class="" type="text" placeholder="port" bind:value={newPort} />
 										</div>
 									</div>
