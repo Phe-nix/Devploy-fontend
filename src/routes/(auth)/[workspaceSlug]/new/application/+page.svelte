@@ -8,8 +8,8 @@
 	import * as Select from '$lib/components/ui/select/index.js';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Label } from '$lib/components/ui/label/index.js';
-	import { Textarea } from '$lib/components/ui/textarea/index.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
+	import * as Accordion from '$lib/components/ui/accordion/index.js';
 
 	// SVG Icons
 	import { LoaderCircle } from 'lucide-svelte';
@@ -33,17 +33,20 @@
 	let sourceSelected = $state(data.source[0]);
 	let selectedRepo = $state({
 		name: '',
-		url: ''
+		url: '',
+		language: ''
 	});
 	let search = $state('');
 	let searchField = $state('');
 	let sourceState = $state<'repo' | 'branch' | 'config'>('repo');
 	let applicationName = $state('');
 	let repoBranch = $state('');
-	let buildPack = $state('nodejs');
+	let buildPack = $state('');
 
-	$inspect(selectedRepo);
-
+	let newInstallCommand = $state('npm install');
+	let newBuildCommand = $state('npm run build');
+	let newStartCommand = $state('node build/index.js');
+	let newPort = $state('3000');
 	const getRepos = async (source: any, search: string = '') => {
 		if (!browser) return;
 		const res = await fetch(
@@ -86,6 +89,16 @@
 		} else {
 			const error = await res.json();
 			throw new Error(error.message);
+		}
+	};
+
+	let checkStack = (repolang: String) => {
+		if (repolang.toLowerCase() == 'javascript' || repolang.toLowerCase() == 'typescript') {
+			buildPack = 'nodejs';
+		} else if (repolang.toLowerCase() == 'python') {
+			buildPack = 'python';
+		} else {
+			buildPack = 'static';
 		}
 	};
 
@@ -189,6 +202,8 @@
 											selectedRepo.name = repo.name;
 											applicationName = repo.name;
 											selectedRepo.url = repo.cloneUrl;
+											selectedRepo.language = repo.language;
+											checkStack(repo.language);
 										}}
 										class="absolute right-0 m-2 font-semibold">Import</Button
 									>
@@ -255,14 +270,71 @@
 							</Select.Root>
 						</div>
 						<Separator class="my-4" />
-						<div class="flex flex-col gap-1.5">
-							<Label>Github Repository</Label>
-							<Input type="text" disabled placeholder="Github Repo" value={selectedRepo.name} />
-						</div>
-						<div class="flex flex-col gap-1.5">
-							<Label>Branch name</Label>
-							<Input type="text" disabled placeholder="Repository Branch" value={repoBranch} />
-						</div>
+						<Accordion.Root type="single" class="disabled:text-muted-foreground">
+							<Accordion.Item disabled={buildPack != 'nodejs'} value="item-1">
+								<Accordion.Trigger>Node config</Accordion.Trigger>
+								<Accordion.Content>
+									<div class="flex flex-col gap-3 px-10">
+										<div class="flex flex-col gap-2">
+											<Label class="text-muted-foreground" for="terms">Install command</Label>
+											<Input
+												class=""
+												type="text"
+												placeholder="install command"
+												bind:value={newInstallCommand}
+											/>
+										</div>
+										<div class="flex flex-col gap-2">
+											<Label class="text-muted-foreground" for="terms">Build command</Label>
+											<Input
+												class=""
+												type="text"
+												placeholder="build command"
+												bind:value={newBuildCommand}
+											/>
+										</div>
+										<div class="flex flex-col gap-2">
+											<Label class="text-muted-foreground" for="terms">Start command</Label>
+											<Input
+												class=""
+												type="text"
+												placeholder="start command"
+												bind:value={newStartCommand}
+											/>
+										</div>
+										<div class="flex flex-col gap-2">
+											<Label class="text-muted-foreground" for="terms">Port</Label>
+											<Input class="" type="text" placeholder="port" bind:value={newPort} />
+										</div>
+									</div>
+								</Accordion.Content>
+							</Accordion.Item>
+							<Accordion.Item value="item-2">
+								<Accordion.Trigger>GitHub info</Accordion.Trigger>
+								<Accordion.Content>
+									<div class="flex flex-col gap-1.5">
+										<div class="flex flex-col gap-1.5">
+											<Label>Github Repository</Label>
+											<Input
+												type="text"
+												disabled
+												placeholder="Github Repo"
+												value={selectedRepo.name}
+											/>
+										</div>
+										<div class="flex flex-col gap-1.5">
+											<Label>Branch name</Label>
+											<Input
+												type="text"
+												disabled
+												placeholder="Repository Branch"
+												value={repoBranch}
+											/>
+										</div>
+									</div>
+								</Accordion.Content>
+							</Accordion.Item>
+						</Accordion.Root>
 					</form>
 				</div>
 			{/if}
@@ -289,36 +361,63 @@
 				>
 				<Button
 					onclick={async () => {
-						const payload = {
-							name: applicationName,
-							github: selectedRepo.url,
-							branch: repoBranch,
-							buildPack,
-							souceId: sourceSelected.installID
-						};
-						const req = axios.post(
-							`${PUBLIC_BASE_API}/workspace/${$page.params.workspaceSlug}/application`,
-							payload,
-							{
-								headers: {
-									'Content-Type': 'application/json',
-									authorization: `Bearer ${data.accessToken}` // ต้องใช้ตัว A เป็นตัวใหญ่ "Authorization"
+						try {
+							const payload = {
+								name: applicationName,
+								github: selectedRepo.url,
+								branch: repoBranch,
+								buildPack,
+								souceId: sourceSelected.installID
+							};
+							const req = await axios.post(
+								`${PUBLIC_BASE_API}/workspace/${$page.params.workspaceSlug}/application`,
+								payload,
+								{
+									headers: {
+										'Content-Type': 'application/json',
+										authorization: `Bearer ${data.accessToken}` // ต้องใช้ตัว A เป็นตัวใหญ่ "Authorization"
+									}
 								}
-							}
-						);
+							);
 
-						toast.promise(req, {
-							loading: 'Loading...',
-							success: (data) => {
-								const res = data;
-								const { applicationId } = res.data;
-								goto(`/${$page.params.workspaceSlug}/application/${applicationId}/info`);
-								return applicationName + ' has been Created';
-							},
-							error: (e: any) => {
-								return e.message;
-							}
-						});
+							const app = req.data;
+
+							const config = {
+								...app.config,
+								installCommand: newInstallCommand,
+								buildCommand: newBuildCommand,
+								startCommand: newStartCommand,
+								port: newPort
+							};
+
+							const reqConfig = await axios.put(
+								`${PUBLIC_BASE_API}/application/${app.applicationId}`,
+								{
+									config
+								},
+								{
+									headers: {
+										'Content-Type': 'application/json',
+										authorization: `Bearer ${data.accessToken}`
+									}
+								}
+							);
+
+							toast.promise(Promise.all([req, reqConfig]), {
+								loading: 'Loading...',
+								success: (data) => {
+									const res = data;
+									const { applicationId } = res[0].data;
+									goto(`/${$page.params.workspaceSlug}/application/${applicationId}/info`);
+									return applicationName + ' has been Created';
+								},
+								error: (e: any) => {
+									return e.message;
+								}
+							});
+						} catch (e: any) {
+							toast.error(e.message);
+						}
 					}}>Let Built</Button
 				>
 			{/if}
