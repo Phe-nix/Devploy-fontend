@@ -17,15 +17,17 @@
 	import { GitBranch } from 'lucide-svelte';
 	import { Github } from 'lucide-svelte';
 	import { Info } from 'lucide-svelte';
+	import { Plus } from 'lucide-svelte';
+	import { Minus } from 'lucide-svelte';
 
 	// import components
-
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
 	import axios from 'axios';
 	import { PUBLIC_BASE_API } from '$env/static/public';
+
 	type Props = {
 		data: PageData;
 	};
@@ -49,6 +51,9 @@
 	let newBuildCommand = $state('npm run build');
 	let newStartCommand = $state('node build/index.js');
 	let newPort = $state('3000');
+
+	let numEnv = $state(1);
+	let newEnv = $state([{ key: '', value: '' }]);
 	const getRepos = async (source: any, search: string = '') => {
 		if (!browser) return;
 		const res = await fetch(
@@ -156,14 +161,23 @@
 			{#if sourceState == 'repo'}
 				<div class="w-1/2 flex flex-col gap-2">
 					<div class="flex flex-col gap-2">
-						<Select.Root type="single" bind:value={sourceSelected}>
-							<Select.Trigger class="w-[180px] font-semibold">{triggerContent}</Select.Trigger>
-							<Select.Content>
-								{#each sources as source}
-									<Select.Item value={source}>{source.name}</Select.Item>
-								{/each}
-							</Select.Content>
-						</Select.Root>
+						<div class="flex items-center gap-2">
+							<Select.Root type="single" bind:value={sourceSelected}>
+								<Select.Trigger class="w-[180px] font-semibold">{triggerContent}</Select.Trigger>
+								<Select.Content>
+									{#each sources as source}
+										<Select.Item value={source}>{source.name}</Select.Item>
+									{/each}
+								</Select.Content>
+							</Select.Root>
+							<Button
+								href="https://github.com/apps/devploy-dev/installations/select_target"
+								size="sm"
+								class="shadow transition"
+							>
+								<Plus class="size-6" />
+							</Button>
+						</div>
 						<div class="flex gap-2">
 							<Input
 								bind:value={searchField}
@@ -273,82 +287,136 @@
 						</div>
 						<Separator class="my-4" />
 						<Accordion.Root type="single" class="disabled:text-muted-foreground">
-							<Accordion.Item disabled={buildPack != 'nodejs'} value="item-1">
-								<Accordion.Trigger>Node config</Accordion.Trigger>
+							{#if buildPack != 'static'}
+								<Accordion.Item disabled={buildPack != 'nodejs'} value="item-1">
+									<Accordion.Trigger>Node config</Accordion.Trigger>
+									<Accordion.Content>
+										<div class="flex flex-col gap-3 px-10">
+											<div class="flex flex-col gap-2">
+												<div class="flex items-center gap-2">
+													<Label class="text-muted-foreground" for="terms">Install command</Label>
+													<Tooltip.Provider>
+														<Tooltip.Root>
+															<Tooltip.Trigger><Info class="size-3" /></Tooltip.Trigger>
+															<Tooltip.Content>
+																<p>
+																	The command your frontend framework provides for compiling your
+																	code.
+																</p>
+															</Tooltip.Content>
+														</Tooltip.Root>
+													</Tooltip.Provider>
+												</div>
+												<Input
+													class=""
+													type="text"
+													placeholder="install command"
+													bind:value={newInstallCommand}
+												/>
+											</div>
+											<div class="flex flex-col gap-2">
+												<div class="flex items-center gap-2">
+													<Label class="text-muted-foreground" for="terms">Build command</Label>
+													<Tooltip.Provider>
+														<Tooltip.Root>
+															<Tooltip.Trigger><Info class="size-3" /></Tooltip.Trigger>
+															<Tooltip.Content>
+																<p>The command your framework provides for build code.</p>
+															</Tooltip.Content>
+														</Tooltip.Root>
+													</Tooltip.Provider>
+												</div>
+												<Input
+													class=""
+													type="text"
+													placeholder="build command"
+													bind:value={newBuildCommand}
+												/>
+											</div>
+											<div class="flex flex-col gap-2">
+												<div class="flex items-center gap-2">
+													<Label class="text-muted-foreground" for="terms">Start command</Label>
+													<Tooltip.Provider>
+														<Tooltip.Root>
+															<Tooltip.Trigger><Info class="size-3" /></Tooltip.Trigger>
+															<Tooltip.Content>
+																<p>The command run location file to run the project.</p>
+															</Tooltip.Content>
+														</Tooltip.Root>
+													</Tooltip.Provider>
+												</div>
+												<Input
+													class=""
+													type="text"
+													placeholder="start command"
+													bind:value={newStartCommand}
+												/>
+											</div>
+											<div class="flex flex-col gap-2">
+												<div class="flex items-center gap-2">
+													<Label class="text-muted-foreground" for="terms">Port</Label>
+													<Tooltip.Provider>
+														<Tooltip.Root>
+															<Tooltip.Trigger><Info class="size-3" /></Tooltip.Trigger>
+															<Tooltip.Content>
+																<p>Ports you want to deploy this project.</p>
+															</Tooltip.Content>
+														</Tooltip.Root>
+													</Tooltip.Provider>
+												</div>
+												<Input class="" type="text" placeholder="port" bind:value={newPort} />
+											</div>
+										</div>
+									</Accordion.Content>
+								</Accordion.Item>
+							{/if}
+							<Accordion.Item value="item-2">
+								<Accordion.Trigger>Environment Variables</Accordion.Trigger>
 								<Accordion.Content>
-									<div class="flex flex-col gap-3 px-10">
-										<div class="flex flex-col gap-2">
-											<div class="flex items-center gap-2">
-												<Label class="text-muted-foreground" for="terms">Install command</Label>
-												<Tooltip.Provider>
-													<Tooltip.Root>
-														<Tooltip.Trigger><Info class="size-3" /></Tooltip.Trigger>
-														<Tooltip.Content>
-															<p>The command your frontend framework provides for compiling your code.</p>
-														</Tooltip.Content>
-													</Tooltip.Root>
-												</Tooltip.Provider>
+									{#each Array(numEnv) as _, index}
+										<div class="flex items-center gap-2 my-2 justify-center">
+											<div class="flex flex-col gap-2 w-full">
+												{#if index == 0}
+													<Label>Key</Label>
+												{/if}
+												<Input
+													type="text"
+													placeholder="KEY_NAME"
+													class=""
+													bind:value={newEnv[index].key}
+												/>
 											</div>
-											<Input
-												class=""
-												type="text"
-												placeholder="install command"
-												bind:value={newInstallCommand}
-											/>
-										</div>
-										<div class="flex flex-col gap-2">
-											<div class="flex items-center gap-2">
-												<Label class="text-muted-foreground" for="terms">Build command</Label>
-												<Tooltip.Provider>
-													<Tooltip.Root>
-														<Tooltip.Trigger><Info class="size-3" /></Tooltip.Trigger>
-														<Tooltip.Content>
-															<p>The command your framework provides for build code.</p>
-														</Tooltip.Content>
-													</Tooltip.Root>
-												</Tooltip.Provider>
+											<div class="flex flex-col gap-2 w-full">
+												{#if index == 0}
+													<Label>Value</Label>
+												{/if}
+												<Input
+													type="text"
+													placeholder="IJ57994POSD"
+													class=""
+													bind:value={newEnv[index].value}
+												/>
 											</div>
-											<Input
-												class=""
-												type="text"
-												placeholder="build command"
-												bind:value={newBuildCommand}
-											/>
+											<Button
+												class="self-end"
+												onclick={() => {
+													newEnv = newEnv.filter((_, i) => i !== index);
+													numEnv -= 1;
+												}}><Minus class="size-6" /></Button
+											>
 										</div>
-										<div class="flex flex-col gap-2">
-											<div class="flex items-center gap-2">
-												<Label class="text-muted-foreground" for="terms">Start command</Label>
-												<Tooltip.Provider>
-													<Tooltip.Root>
-														<Tooltip.Trigger><Info class="size-3" /></Tooltip.Trigger>
-														<Tooltip.Content>
-															<p>The command run location file to run the project.</p>
-														</Tooltip.Content>
-													</Tooltip.Root>
-												</Tooltip.Provider>
-											</div>
-											<Input
-												class=""
-												type="text"
-												placeholder="start command"
-												bind:value={newStartCommand}
-											/>
-										</div>
-										<div class="flex flex-col gap-2">
-											<div class="flex items-center gap-2">
-												<Label class="text-muted-foreground" for="terms">Port</Label>
-												<Tooltip.Provider>
-													<Tooltip.Root>
-														<Tooltip.Trigger><Info class="size-3" /></Tooltip.Trigger>
-														<Tooltip.Content>
-															<p>Ports you want to deploy this project.</p>
-														</Tooltip.Content>
-													</Tooltip.Root>
-												</Tooltip.Provider>
-											</div>
-											<Input class="" type="text" placeholder="port" bind:value={newPort} />
-										</div>
-									</div>
+									{/each}
+									<Button
+										size="sm"
+										onclick={() => {
+											newEnv = [...newEnv, { key: '', value: '' }];
+											numEnv += 1;
+										}}
+										class="my-4 flex items-center"
+									>
+										<Plus class="size-6" />
+										<p>Add More</p>
+									</Button>
 								</Accordion.Content>
 							</Accordion.Item>
 							<Accordion.Item value="item-2">
@@ -424,14 +492,20 @@
 
 							const app = req.data;
 
+							let env: string[] = Object.entries(newEnv)
+								.filter(([_, { key, value }]) => key.trim() !== '' && value.trim() !== '')
+								.map(([_, { key, value }]) => `${key.trim()}=${value.trim()}`);
+
 							const config = {
-								...app.config,
+								// ...app.config,
 								installCommand: newInstallCommand,
 								buildCommand: newBuildCommand,
 								startCommand: newStartCommand,
-								port: newPort
+								port: newPort,
+								config: env
 							};
 
+							console.log(config);
 							const reqConfig = await axios.put(
 								`${PUBLIC_BASE_API}/application/${app.applicationId}`,
 								{
