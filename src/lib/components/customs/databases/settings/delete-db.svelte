@@ -15,25 +15,48 @@
 	import { toast } from 'svelte-sonner';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
+	import axios from 'axios';
+	import { PUBLIC_BASE_API } from '$env/static/public';
 
 	let {
 		data
 	}: {
 		data: {
-			appInfo: any;
-			form: SuperValidated<Infer<ConfirmDeleteForm>>;
+			accessToken: any;
+			databaseInfo: any;
+			formDelete: SuperValidated<Infer<ConfirmDeleteForm>>;
 		};
 	} = $props();
 
-	const form = superForm(data.form, {
+	const form = superForm(data.formDelete, {
 		validators: zodClient(confirmDeleteForm),
 		id: crypto.randomUUID(),
 
 		onUpdated({ form }) {
 			if (form.valid) {
-				goto(`/${page.params.workspaceSlug}/applications`);
-				isOpen = false;
-				toast.success('Application deleted successfully');
+				try {
+					const req = axios.delete(`${PUBLIC_BASE_API}/database/${page.params.databaseId}`, {
+						headers: {
+							authorization: `Bearer ${data.accessToken}`
+						}
+					});
+
+					toast.promise(req, {
+						loading: 'Loading...',
+						success: (data) => {
+							isOpen = false;
+							goto(`/${page.params.workspaceSlug}/databases`, {
+								invalidateAll: true
+							});
+							return 'Database has been Deleted';
+						},
+						error: (e: any) => {
+							return e.message;
+						}
+					});
+				} catch (e: any) {
+					toast.error(e.message + ' Or Somthing was wrong..');
+				}
 			} else if (!form.valid) {
 				toast.error('Form is invalid. Please check the fields and try again');
 			}
@@ -60,9 +83,9 @@
 	>
 	<Dialog.Content>
 		<Dialog.Header>
-			<Dialog.Title>Delete Application</Dialog.Title>
+			<Dialog.Title>Delete Database</Dialog.Title>
 			<Dialog.Description>
-				This application will be deleted, along with all of its Deployments and It can't undone.
+				This database will be deleted, along with all of its Deployments and It can't undone.
 			</Dialog.Description>
 			<Alert.Root variant="destructive">
 				<CircleAlert class="size-4" />
@@ -75,8 +98,8 @@
 				<Form.Control>
 					{#snippet children({ props })}
 						<Form.Label
-							>Enter the application name <span class="text-muted-foreground"
-								>devploy/{data.appInfo.name}</span
+							>Enter the database name <span class="text-muted-foreground"
+								>devploy/{data.databaseInfo.name}</span
 							> to continue:</Form.Label
 						>
 						<Input {...props} bind:value={$formData.name} />
@@ -88,7 +111,7 @@
 				<Form.Control>
 					{#snippet children({ props })}
 						<Form.Label
-							>Type <span class="text-muted-foreground">delete {data.appInfo.name}</span> to confirm:</Form.Label
+							>Type <span class="text-muted-foreground">delete {data.databaseInfo.name}</span> to confirm:</Form.Label
 						>
 						<Input {...props} bind:value={$formData.confirm} />
 					{/snippet}

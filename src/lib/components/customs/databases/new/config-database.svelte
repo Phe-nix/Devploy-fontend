@@ -32,7 +32,6 @@
 	const form = superForm(data.form, {
 		validators: zodClient(formSchema),
 		onUpdate({ form }) {
-			console.log(data);
 			if (form.valid) {
 				try {
 					const res = axios.post(
@@ -55,7 +54,9 @@
 						success: (data) => {
 							const res = data;
 							const { databaseId } = res.data;
-							goto(`/${page.params.workspaceSlug}/database/${databaseId}/info`);
+							goto(`/${page.params.workspaceSlug}/database/${databaseId}/info`, {
+								invalidateAll: true,
+							});
 							return form.data.name + ' database has been Created';
 						},
 						error: (e: any) => {

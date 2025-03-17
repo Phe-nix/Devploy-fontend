@@ -20,7 +20,7 @@
 	<button
 		class="z-0"
 		onclick={() => {
-			goto(`/${$page.params.workspaceSlug}/application/${service.id}/info`);
+			goto(`/${$page.params.workspaceSlug}/database/${service.id}/info`);
 		}}
 	>
 		<div
@@ -28,7 +28,7 @@
 		>
 			<div class="flex space-x-5 items-center z-10">
 				<Avatar.Root>
-					<Avatar.Image src={`https://github.com/${service.buildPack}.png`} />
+					<Avatar.Image src={`https://github.com/${service.image}.png`} />
 					<Avatar.Fallback>?</Avatar.Fallback>
 				</Avatar.Root>
 				<div class="flex flex-col items-start space-y-2">

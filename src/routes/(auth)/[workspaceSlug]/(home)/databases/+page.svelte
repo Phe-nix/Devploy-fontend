@@ -12,7 +12,6 @@
     let { data } = $props();
     let services = $state(data.info.Database);
 
-    console.log(data)
   </script>
   
   <Card.Root>
