@@ -10,19 +10,22 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { PUBLIC_BASE_API } from '$env/static/public';
-	// import icon_light from "$lib/assets/icon/light_iron.png"
-	// import icon_black from "$lib/assets/icon/black_icon.png";
+
 </script>
 
 <div class="flex flex-col items-center justify-center md:space-y-10 space-y-20 min-h-screen">
-	<div class="flex flex-col space-y-2 items-center">
+	<div class="flex flex-col space-y-2 items-center gap-6">
 		<h1 class="hidden dark:block">
-			<!-- <img src={icon_light} class="size-24" alt="Logo"/> -->
-			Logo
+			<div class="flex flex-col items-center">
+				<img src="/imgs/logos/Logo_light.png" class="w-28" alt="Logo"/>
+				<p class="text-lg font-semibold">Devploy</p>
+			</div>
 		</h1>
 		<h1 class="block dark:hidden">
-			<!-- <img src={icon_black} class="size-24" alt="Logo"/> -->
-			LOGO
+			<div class="flex flex-col items-center">
+				<img src="/imgs/logos/Logo_dark.png" class="w-28" alt="Logo"/>
+				<p class="text-lg font-semibold">Devploy</p>
+			</div>
 		</h1>
 		<h1 class="text-2xl font-bold tracking-tight md:text-2xl">Sign in to Devploy</h1>
 	</div>

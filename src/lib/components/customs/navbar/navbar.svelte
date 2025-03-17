@@ -12,9 +12,6 @@
 	// icon
 	import { Menu } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
-	// import icon_light from '$lib/assets/icon/light_iron.png';
-	// import icon_black from '$lib/assets/icon/black_icon.png';
-
 	//PropData data
 	let { workspaces } = $props();
 </script>
@@ -24,24 +21,27 @@
 >
 	<div class="flex flex-row justify-between">
 		<div class="flex flex-row items-center space-x-10">
-			<a
-				href="/{$page.params.workspaceSlug}/applications"
-				class="text-2xl font-bold hidden dark:block"
-			>
-				<!-- <img src={icon_light} class="size-10" alt="LOGO" /> -->
-				LOGO
+			<a href="/{$page.params.workspaceSlug}/applications" class="hidden dark:block">
+				<div class="flex flex-row items-center space-x-2">
+					<img src="/imgs/logos/Logo_light.png" class="w-12" alt="LOGO" />
+					<p class="text-sm">Devploy</p>
+				</div>
 			</a>
-			<a
-				href="/{$page.params.workspaceSlug}/applications"
-				class="text-2xl font-bold block dark:hidden"
-			>
-				LOGO
+			<a href="/{$page.params.workspaceSlug}/applications" class="block dark:hidden">
+				<div class="flex flex-row items-center space-x-2">
+					<img src="/imgs/logos/Logo_dark.png" class="w-12" alt="LOGO" />
+					<p class="text-sm">Devploy</p>
+				</div>
 			</a>
 			<Button variant="ghost" class="text-sm font-medium text-muted-foreground">Docs</Button>
 			{#if workspaces.userProfile.role == 'OWNER'}
-				<Button variant="ghost" class="text-sm font-medium text-muted-foreground" onclick={() => {
-					goto('/admin/Users')
-				}}>Server</Button>
+				<Button
+					variant="ghost"
+					class="text-sm font-medium text-muted-foreground"
+					onclick={() => {
+						goto('/admin/Users');
+					}}>Server</Button
+				>
 			{/if}
 		</div>
 		<div class="flex flex-row items-center space-x-5">
@@ -64,25 +64,29 @@
 					<div class="flex flex-col z-50 gap-2 p-2 inset-y-0 left-0 h-full w-3/4 sm:max-w-sm pr-0">
 						<a
 							href="/{$page.params.workspaceSlug}/applications"
-							class="text-foreground/60 items-center hidden dark:block"
+							class="text-foreground/60 self-start hidden dark:block"
 						>
-							<!-- <img src={icon_light} class="size-10" alt="LOGO" /> -->
-							LOGO
+							<div class="flex flex-col items-center space-x-2">
+								<img src="/imgs/logos/Logo_light.png" class="w-12" alt="LOGO" />
+								<p class="text-sm">Devploy</p>
+							</div>
 						</a>
 						<a
 							href="/{$page.params.workspaceSlug}/applications"
-							class="text-foreground/60 items-center block dark:hidden"
+							class="text-foreground/60 self-start block dark:hidden"
 						>
-							<!-- <img src={icon_black} class="size-10" alt="LOGO" /> -->
-							LOGO
+							<div class="flex flex-col items-center space-x-2">
+								<img src="/imgs/logos/Logo_dark.png" class="w-12" alt="LOGO" />
+								<p class="text-sm">Devploy</p>
+							</div>
 						</a>
 						<div
 							class="relative overflow-hidden my-4 h-[calc(100vh-8rem)] pb-10 pl-6 flex flex-col space-y-5"
 							data-scroll-area-root
 							style="overflow: hidden;"
 						>
-							<a href="/home/applications" class="font-semibold">Docs</a>
-							<a href="/admin" class="font-semibold">Server</a>
+							<a href="/" class="font-semibold">Docs</a>
+							<a href="/admin/Users" class="font-semibold">Server</a>
 						</div>
 					</div>
 				</Sheet.Content>
