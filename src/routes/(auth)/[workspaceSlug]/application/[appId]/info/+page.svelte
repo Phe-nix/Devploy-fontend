@@ -142,6 +142,7 @@
 		</div>
 		<Separator />
 	{/if}
+	<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Application info</h3>
 	<div class="grid grid-cols-2 gap-4">
 		<div class="flex flex-col gap-2">
 			<Label class="text-muted-foreground" for="terms">Deployment</Label>

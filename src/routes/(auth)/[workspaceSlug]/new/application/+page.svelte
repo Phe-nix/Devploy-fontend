@@ -497,7 +497,7 @@
 								.map(([_, { key, value }]) => `${key.trim()}=${value.trim()}`);
 
 							const config = {
-								// ...app.config,
+								...app.config,
 								installCommand: newInstallCommand,
 								buildCommand: newBuildCommand,
 								startCommand: newStartCommand,

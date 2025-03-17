@@ -9,7 +9,7 @@
 
 	import type { LayoutProps } from './$types';
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 
 	let { data, children }: LayoutProps = $props();
 </script>
@@ -18,7 +18,9 @@
 	<Breadcrumb.Root>
 		<Breadcrumb.List>
 			<Breadcrumb.Item>
-				<Breadcrumb.Link href="/{$page.params.workspaceSlug}/applications"
+				<Breadcrumb.Link class="hover:cursor-pointer hover:underline" onclick={() => goto(`/${$page.params.workspaceSlug}/applications`, {
+					invalidateAll: true
+				})}
 					>Applications</Breadcrumb.Link
 				>
 			</Breadcrumb.Item>
@@ -40,19 +42,26 @@
 		<Tabs.Trigger
 			value="general"
 			onclick={() => {
-				goto(`/${$page.params.workspaceSlug}/application/${$page.params.appId}/info`);
+				goto(`/${$page.params.workspaceSlug}/application/${$page.params.appId}/info`, {
+					invalidateAll: true
+				}
+				);
 			}}>Info</Tabs.Trigger
 		>
 		<Tabs.Trigger
 			value="logs"
 			onclick={() => {
-				goto(`/${$page.params.workspaceSlug}/application/${$page.params.appId}/logs`);
+				goto(`/${$page.params.workspaceSlug}/application/${$page.params.appId}/logs`, {
+					invalidateAll: true
+				});
 			}}>Logs</Tabs.Trigger
 		>
 		<Tabs.Trigger
 			value="setting"
 			onclick={() => {
-				goto(`/${$page.params.workspaceSlug}/application/${$page.params.appId}/settings`);
+				goto(`/${$page.params.workspaceSlug}/application/${$page.params.appId}/settings` , {
+					invalidateAll: true
+				});
 			}}>Settings</Tabs.Trigger
 		>
 		<Tabs.Trigger value="domain">Domains</Tabs.Trigger>
