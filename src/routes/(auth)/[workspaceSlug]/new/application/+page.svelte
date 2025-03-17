@@ -505,7 +505,6 @@
 								config: env
 							};
 
-							console.log(config);
 							const reqConfig = await axios.put(
 								`${PUBLIC_BASE_API}/application/${app.applicationId}`,
 								{
