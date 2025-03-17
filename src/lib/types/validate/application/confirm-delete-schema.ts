@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const confirmDeleteForm = z
 	.object({
-		name: z.string().regex(/^devploy\/(.+)$/, { message: "The apllication name is required" }), // ต้องมีชื่อโปรเจคต่อท้าย
+		name: z.string().regex(/^devploy\/(.+)$/, { message: "name is required" }), // ต้องมีชื่อโปรเจคต่อท้าย
 		confirm: z.string()
 	})
 	.refine(
