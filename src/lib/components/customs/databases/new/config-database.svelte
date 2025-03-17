@@ -12,19 +12,59 @@
 	import { toast } from 'svelte-sonner';
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
+	import * as Accordion from '$lib/components/ui/accordion/index.js';
+	import axios from 'axios';
+	import { PUBLIC_BASE_API } from '$env/static/public';
 
 	let {
 		data,
-		nowState = $bindable()
-	}: { data: { form: SuperValidated<Infer<FormSchema>> }; nowState: string } = $props();
+		nowState = $bindable(),
+		db
+	}: {
+		data: {
+			accessToken: any;
+			form: SuperValidated<Infer<FormSchema>>;
+		};
+		nowState: string;
+		db: string;
+	} = $props();
 
 	const form = superForm(data.form, {
 		validators: zodClient(formSchema),
-
 		onUpdate({ form }) {
+			console.log(data);
 			if (form.valid) {
-				goto(`/${page.params.workspaceSlug}/applications`);
-				toast.success('Database created successfully');
+				try {
+					const res = axios.post(
+						`${PUBLIC_BASE_API}/workspace/${page.params.workspaceSlug}/database`,
+						{
+							name: form.data.name,
+							username: form.data.username,
+							password: form.data.password,
+							databaseName: form.data.databaseName,
+							image: db
+						},
+						{
+							headers: {
+								authorization: `Bearer ${data.accessToken}`
+							}
+						}
+					);
+					toast.promise(res, {
+						loading: 'Loading...',
+						success: (data) => {
+							const res = data;
+							const { databaseId } = res.data;
+							goto(`/${page.params.workspaceSlug}/database/${databaseId}/info`);
+							return form.data.name + ' database has been Created';
+						},
+						error: (e: any) => {
+							return e.message;
+						}
+					});
+				} catch (e: any) {
+					toast.error(e.message + '. Please try again');
+				}
 			} else {
 				toast.error('Form is invalid. Please check the fields and try again');
 			}
@@ -43,16 +83,20 @@
 			<Form.Control>
 				{#snippet children({ props })}
 					<Form.Label>Name</Form.Label>
-					<Input {...props} bind:value={$formData.name} />
+					<Input {...props} placeholder="DevployDB" bind:value={$formData.name} />
 				{/snippet}
 			</Form.Control>
 			<Form.FieldErrors />
 		</Form.Field>
+		<div class="flex flex-col gap-2">
+			<Label>Type database</Label>
+			<Input name="typeDB" placeholder={db} disabled bind:value={db} />
+		</div>
 		<Form.Field {form} name="databaseName">
 			<Form.Control>
 				{#snippet children({ props })}
 					<Form.Label>Database name</Form.Label>
-					<Input {...props} bind:value={$formData.databaseName} />
+					<Input {...props} placeholder="DevployDB" bind:value={$formData.databaseName} />
 				{/snippet}
 			</Form.Control>
 			<Form.FieldErrors />
@@ -60,8 +104,8 @@
 		<Form.Field {form} name="username">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Database username</Form.Label>
-					<Input {...props} bind:value={$formData.username} />
+					<Form.Label>Username</Form.Label>
+					<Input {...props} placeholder="admin" bind:value={$formData.username} />
 				{/snippet}
 			</Form.Control>
 			<Form.FieldErrors />
@@ -69,12 +113,25 @@
 		<Form.Field {form} name="password">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Database password</Form.Label>
-					<Input {...props} bind:value={$formData.password} />
+					<Form.Label>Password</Form.Label>
+					<Input
+						type="password"
+						{...props}
+						placeholder="admin123"
+						bind:value={$formData.password}
+					/>
 				{/snippet}
 			</Form.Control>
 			<Form.FieldErrors />
 		</Form.Field>
+
+		<Accordion.Root class="py-4" type="multiple">
+			<Accordion.Item value="item-1">
+				<Accordion.Trigger>Is it accessible?</Accordion.Trigger>
+				<Accordion.Content>Yes. It adheres to the WAI-ARIA design pattern.</Accordion.Content>
+			</Accordion.Item>
+		</Accordion.Root>
+
 		<div class="flex justify-between w-full max-w-5xl">
 			<Button
 				onclick={() => {

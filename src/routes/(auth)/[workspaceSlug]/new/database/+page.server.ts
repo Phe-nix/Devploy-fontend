@@ -13,42 +13,17 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-	default: async (event) => {
-		let accessToken = event.cookies.get('accessToken');
-		const form = await superValidate(event, zod(formSchema));
+	default: async ({request, cookies}) => {
+		let accessToken = cookies.get('accessToken');
+		const form = await superValidate(request, zod(formSchema));
 		if (!form.valid) {
 			return fail(400, {
 				form
 			});
 		}
-
-		console.log(form.data);
-
-		let formData = {
-			name: form.data.name,
-			username: form.data.username,
-			password: form.data.password,
-			databaseName: form.data.databaseName,
-			image: ''
-		}
-
-		const res = await fetch(`${PUBLIC_BASE_API}/workspace/${event.params.workspaceSlug}/database`, {
-			method: 'POST',
-			headers: {
-				authorization: `Bearer ${accessToken}`
-			},
-			body: JSON.stringify(formData)
-		});
-
-		if (!res.ok) {
-			return fail(500, {
-				message: JSON.stringify(res.json()),
-				form
-			});
-		} else {
-			return {
-				form
-			};
-		}
+		
+		return {
+			form
+		};
 	}
 };

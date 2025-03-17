@@ -22,11 +22,6 @@
 			name: 'MySQL',
 			value: 'mysql',
 			img: '/imgs/databases/devicon--mysql-wordmark.png'
-		},
-		{
-			name: 'SQLite',
-			value: 'sqlite',
-			img: '/imgs/databases/skill-icons--sqlite.png'
 		}
 	];
 
@@ -43,7 +38,7 @@
 		class="gap-6 flex-col md:flex-row"
 	>
 		{#each databases as { name, value, img }}
-			<ToggleGroup.Item {value} aria-label={name}>
+			<ToggleGroup.Item {value} aria-label={name} disabled={value == 'mysql'}>
 				<div class="flex flex-col items-center space-y-4">
 					<img class="size-12" src={img} alt={name} />
 					<Label>{name}</Label>

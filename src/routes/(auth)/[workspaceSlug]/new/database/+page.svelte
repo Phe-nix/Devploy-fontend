@@ -38,7 +38,7 @@
 				<Card.Description>Fill form for config your database to deployment.</Card.Description>
 			</Card.Header>
 			<Card.Content>
-                <ConfigDatabase {data} bind:nowState={createState}/>
+                <ConfigDatabase {data} bind:nowState={createState} db={nowSelectDB}/>
 			</Card.Content>
 		{/if}
 	</Card.Root>
