@@ -12,7 +12,7 @@
 					},
 					{
 						title: 'Limit servers',
-						url: '#'
+						url: '/Quota'
 					}
 				]
 			}
