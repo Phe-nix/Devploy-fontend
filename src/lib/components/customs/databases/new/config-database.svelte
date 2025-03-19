@@ -125,14 +125,6 @@
 			</Form.Control>
 			<Form.FieldErrors />
 		</Form.Field>
-
-		<Accordion.Root class="py-4" type="multiple">
-			<Accordion.Item value="item-1">
-				<Accordion.Trigger>Is it accessible?</Accordion.Trigger>
-				<Accordion.Content>Yes. It adheres to the WAI-ARIA design pattern.</Accordion.Content>
-			</Accordion.Item>
-		</Accordion.Root>
-
 		<div class="flex justify-between w-full max-w-5xl">
 			<Button
 				onclick={() => {
