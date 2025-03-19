@@ -1,6 +1,8 @@
 <script lang="ts">
 	import * as Avatar from '$lib/components/ui/avatar';
-    import KickUserWorkspace from '$lib/components/customs/settings/membersPage/kick-user-workspace.svelte';
+	import KickUserWorkspace from '$lib/components/customs/settings/membersPage/kick-user-workspace.svelte';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 	let { data } = $props();
 </script>
 
@@ -25,11 +27,7 @@
 					</div>
 				</div>
 				<div class="flex space-x-4">
-                    {#if member == data.info.Members[0]}
-                    <KickUserWorkspace class="hidden"/>
-                    {:else}
-					<KickUserWorkspace class=""/>
-                    {/if}
+					<KickUserWorkspace {member} {data} />
 				</div>
 			</div>
 		{/each}
