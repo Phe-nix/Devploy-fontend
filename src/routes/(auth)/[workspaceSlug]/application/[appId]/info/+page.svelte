@@ -15,6 +15,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { Globe } from 'lucide-svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
+	import { KeyRound } from 'lucide-svelte';
 
 	const stacks = [
 		{
@@ -184,7 +185,7 @@
 			{/each}
 		</div>
 	</div>
-	<div class="w-full overflow-x-auto">
+	<!-- <div class="w-full overflow-x-auto">
 		<p>config: {JSON.stringify(data.appInfo.config)}</p>
-	</div>
+	</div> -->
 </div>
