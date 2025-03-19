@@ -31,15 +31,16 @@
 					</div>
 				</div>
 				{#if workspace == data.workspace[0]}
-				<div class="space-x-4 hidden">
-					<EditUserWorkspace workspace={data} data={workspace}/>
-					<DeleteUserWorkspace permisstion={data} slug={workspace.slug}/>
-				</div>
+					<div class="space-x-4 hidden"></div>
 				{:else}
-				<div class="flex space-x-4">
-					<EditUserWorkspace workspace={data} data={workspace}/>
-					<DeleteUserWorkspace permisstion={data} slug={workspace.slug}/>
-				</div>
+					<div class="flex space-x-4">
+						<EditUserWorkspace workspace={data} data={workspace} />
+						<DeleteUserWorkspace
+							permisstion={data}
+							slug={workspace.slug}
+							role={workspace.permission[0].role}
+						/>
+					</div>
 				{/if}
 			</div>
 		{/each}
