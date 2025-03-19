@@ -286,7 +286,7 @@
 							</Select.Root>
 						</div>
 						<Separator class="my-4" />
-						<Accordion.Root type="single" class="disabled:text-muted-foreground">
+						<Accordion.Root type="multiple" class="disabled:text-muted-foreground">
 							{#if buildPack != 'static'}
 								<Accordion.Item disabled={buildPack != 'nodejs'} value="item-1">
 									<Accordion.Trigger>Node config</Accordion.Trigger>
@@ -369,57 +369,57 @@
 										</div>
 									</Accordion.Content>
 								</Accordion.Item>
+								<Accordion.Item value="item-2">
+									<Accordion.Trigger>Environment Variables</Accordion.Trigger>
+									<Accordion.Content>
+										{#each Array(numEnv) as _, index}
+											<div class="flex items-center gap-2 my-2 justify-center">
+												<div class="flex flex-col gap-2 w-full">
+													{#if index == 0}
+														<Label>Key</Label>
+													{/if}
+													<Input
+														type="text"
+														placeholder="KEY_NAME"
+														class=""
+														bind:value={newEnv[index].key}
+													/>
+												</div>
+												<div class="flex flex-col gap-2 w-full">
+													{#if index == 0}
+														<Label>Value</Label>
+													{/if}
+													<Input
+														type="text"
+														placeholder="IJ57994POSD"
+														class=""
+														bind:value={newEnv[index].value}
+													/>
+												</div>
+												<Button
+													class="self-end"
+													onclick={() => {
+														newEnv = newEnv.filter((_, i) => i !== index);
+														numEnv -= 1;
+													}}><Minus class="size-6" /></Button
+												>
+											</div>
+										{/each}
+										<Button
+											size="sm"
+											onclick={() => {
+												newEnv = [...newEnv, { key: '', value: '' }];
+												numEnv += 1;
+											}}
+											class="my-4 flex items-center"
+										>
+											<Plus class="size-6" />
+											<p>Add More</p>
+										</Button>
+									</Accordion.Content>
+								</Accordion.Item>
 							{/if}
-							<Accordion.Item value="item-2">
-								<Accordion.Trigger>Environment Variables</Accordion.Trigger>
-								<Accordion.Content>
-									{#each Array(numEnv) as _, index}
-										<div class="flex items-center gap-2 my-2 justify-center">
-											<div class="flex flex-col gap-2 w-full">
-												{#if index == 0}
-													<Label>Key</Label>
-												{/if}
-												<Input
-													type="text"
-													placeholder="KEY_NAME"
-													class=""
-													bind:value={newEnv[index].key}
-												/>
-											</div>
-											<div class="flex flex-col gap-2 w-full">
-												{#if index == 0}
-													<Label>Value</Label>
-												{/if}
-												<Input
-													type="text"
-													placeholder="IJ57994POSD"
-													class=""
-													bind:value={newEnv[index].value}
-												/>
-											</div>
-											<Button
-												class="self-end"
-												onclick={() => {
-													newEnv = newEnv.filter((_, i) => i !== index);
-													numEnv -= 1;
-												}}><Minus class="size-6" /></Button
-											>
-										</div>
-									{/each}
-									<Button
-										size="sm"
-										onclick={() => {
-											newEnv = [...newEnv, { key: '', value: '' }];
-											numEnv += 1;
-										}}
-										class="my-4 flex items-center"
-									>
-										<Plus class="size-6" />
-										<p>Add More</p>
-									</Button>
-								</Accordion.Content>
-							</Accordion.Item>
-							<Accordion.Item value="item-2">
+							<Accordion.Item value="item-3">
 								<Accordion.Trigger>GitHub info</Accordion.Trigger>
 								<Accordion.Content>
 									<div class="flex flex-col gap-1.5">
