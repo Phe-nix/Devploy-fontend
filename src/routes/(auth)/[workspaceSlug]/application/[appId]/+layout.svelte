@@ -38,7 +38,7 @@
 </div>
 
 <Tabs.Root value="general" class="w-full py-6">
-	<Tabs.List class="grid w-full grid-cols-4">
+	<Tabs.List class="grid w-full grid-cols-3">
 		<Tabs.Trigger
 			value="general"
 			onclick={() => {
@@ -64,7 +64,6 @@
 				});
 			}}>Settings</Tabs.Trigger
 		>
-		<Tabs.Trigger value="domain">Domains</Tabs.Trigger>
 	</Tabs.List>
 	<Tabs.Content value="general">
 		<Card.Root>
@@ -84,13 +83,6 @@
 		<Card.Root>
 			<Card.Content>
 				{@render children()}
-			</Card.Content>
-		</Card.Root>
-	</Tabs.Content>
-	<Tabs.Content value="domain">
-		<Card.Root>
-			<Card.Content>
-				<!-- <Domain /> -->
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>
