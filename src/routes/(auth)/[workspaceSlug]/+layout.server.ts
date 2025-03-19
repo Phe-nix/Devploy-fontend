@@ -1,3 +1,4 @@
+import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ parent, params, fetch }) => {
@@ -8,6 +9,11 @@ export const load: LayoutServerLoad = async ({ parent, params, fetch }) => {
 			Authorization: `Bearer ${accessToken}`
 		}
 	});
+
+	if (!workspaceInfo.ok)
+	{
+		redirect(302, '/')
+	}
 	return {
         info: workspaceInfo.ok ? await workspaceInfo.json() : null
     };
