@@ -54,7 +54,7 @@
 	</Dialog.Trigger>
 	<Dialog.Content class="sm:max-w-[425px]">
 		<Dialog.Header>
-			<Dialog.Title>Edit <span class="italic">Phe-nix</span></Dialog.Title>
+			<Dialog.Title>Edit <span class="italic">{name}</span></Dialog.Title>
 			<Dialog.Description>
 				Make changes to your service here. Click save when you're done.
 			</Dialog.Description>
