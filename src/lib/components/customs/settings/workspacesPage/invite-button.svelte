@@ -27,7 +27,7 @@
 		toast.promise(request, {
 			loading: 'Loading...',
 			success: (data) => {
-				return data.data.email + ' has been invited';
+				return email + ' has been invited';
 			},
 			error: (e: any) => {
 				return e.message
