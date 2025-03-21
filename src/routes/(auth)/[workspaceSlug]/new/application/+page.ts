@@ -1,9 +1,10 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
+import { PUBLIC_BASE_API } from '$env/static/public';
 
 export const load: PageLoad = (async ({parent, fetch}) => {
     const { accessToken } = await parent();
-    const res = await fetch('http://127.0.0.1:3000/source', {
+    const res = await fetch(`${PUBLIC_BASE_API}/source`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',

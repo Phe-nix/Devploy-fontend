@@ -57,7 +57,7 @@
 	const getRepos = async (source: any, search: string = '') => {
 		if (!browser) return;
 		const res = await fetch(
-			`http://127.0.0.1:3000/source/${source.installID}/repos?search=${search}`,
+			`${PUBLIC_BASE_API}/source/${source.installID}/repos?search=${search}`,
 			{
 				method: 'GET',
 				headers: {
@@ -81,7 +81,7 @@
 			throw new Error('Source or repo not found');
 		}
 		const res = await fetch(
-			`http://127.0.0.1:3000/source/${source.installID}/${repo.name}/branches`,
+			`${PUBLIC_BASE_API}/source/${source.installID}/${repo.name}/branches`,
 			{
 				method: 'GET',
 				headers: {

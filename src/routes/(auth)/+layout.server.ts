@@ -8,7 +8,7 @@ export const load: LayoutServerLoad = async ({ locals, cookies }) => {
 	if (!locals.user) {
 		redirect(302, '/login');
 	}
-	const response = await fetch('http://127.0.0.1:3000/workspace', {
+	const response = await fetch(`${PUBLIC_BASE_API}/workspace`, {
 		method: 'GET',
 		headers: {
 			authorization: `Bearer ${accessToken}`

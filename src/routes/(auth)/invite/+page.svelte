@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
+	import { PUBLIC_BASE_API } from '$env/static/public';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
 	const acceptInvite = async (slug: string) => {
-		const res = await fetch(`http://127.0.0.1:3000/invite/${slug}`, {
+		const res = await fetch(`${PUBLIC_BASE_API}/invite/${slug}`, {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
@@ -18,7 +19,7 @@
 	};
 
 	const deniedInvite = async (slug: string) => {
-		const res = await fetch(`http://127.0.0.1:3000/invite/${slug}`, {
+		const res = await fetch(`${PUBLIC_BASE_API}/invite/${slug}`, {
 			method: 'delete',
 			headers: {
 				'Content-Type': 'application/json',

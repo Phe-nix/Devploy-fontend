@@ -32,7 +32,7 @@
 	<Card.Root class="p-8 md:p-20">
 		<Card.Content>
 			<div class="flex flex-col items-center">
-				<Button href="http://localhost:3000/auth/google/login" class="my-4 p-[1.5em]">
+				<Button href={`${PUBLIC_BASE_API}/auth/google/login`} class="my-4 p-[1.5em]">
 					<Mail class="mr-2 h-4 w-4" />
 					Login with @kmitl.ac.th
 				</Button>

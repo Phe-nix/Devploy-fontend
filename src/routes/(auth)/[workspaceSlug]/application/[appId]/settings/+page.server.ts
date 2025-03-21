@@ -21,7 +21,7 @@ export const actions: Actions = {
 			return fail(400, { form });
 		}
 
-		const res = await fetch(`http://127.0.0.1:3000/application/${event.params.appId}`, {
+		const res = await fetch(`${PUBLIC_BASE_API}/application/${event.params.appId}`, {
 			method: 'DELETE',
 			headers: {
 				authorization: `Bearer ${accessToken}`
