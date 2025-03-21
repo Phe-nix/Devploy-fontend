@@ -149,8 +149,8 @@
 			<Label class="text-muted-foreground" for="terms">Deployment</Label>
 			<div class="flex items-center gap-2">
 				<Globe class="size-5" />
-				<a href="http://{data.appInfo.url}.localhost" class="font-semibold hover:underline"
-					>{data.appInfo.url}.localhost</a
+				<a href={`http://${data.appInfo.url}.${data.settingInfo.baseUrl}`} class="font-semibold hover:underline"
+					>{data.appInfo.url}.{data.settingInfo.baseUrl}</a
 				>
 			</div>
 		</div>

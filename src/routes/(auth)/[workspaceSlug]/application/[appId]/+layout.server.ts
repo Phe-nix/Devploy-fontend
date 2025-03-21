@@ -1,14 +1,21 @@
+import { PUBLIC_BASE_API } from '$env/static/public';
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ parent, params, fetch }) => {
 	const { accessToken } = await parent();
 	const { appId } = params;
-	const appInfo = await fetch(`http://127.0.0.1:3000/application/${appId}`, {
+	const appInfo = await fetch(`${PUBLIC_BASE_API}/application/${appId}`, {
+		headers: {
+			Authorization: `Bearer ${accessToken}`
+		}
+	});
+	const settingInfo = await fetch(`${PUBLIC_BASE_API}/setting`, {
 		headers: {
 			Authorization: `Bearer ${accessToken}`
 		}
 	});
 	return {
-		appInfo: appInfo.ok ? await appInfo.json() : null
+		appInfo: appInfo.ok ? await appInfo.json() : null,
+		settingInfo: settingInfo.ok ? await settingInfo.json() : null
 	};
 };
