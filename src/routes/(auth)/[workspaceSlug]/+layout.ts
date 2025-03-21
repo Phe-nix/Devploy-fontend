@@ -1,8 +1,8 @@
-import { redirect } from '@sveltejs/kit';
-import type { LayoutServerLoad } from './$types';
 import { PUBLIC_BASE_API } from '$env/static/public';
+import { redirect } from '@sveltejs/kit';
+import type { LayoutLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ parent, params, fetch }) => {
+export const load: LayoutLoad = async ({ parent, params, fetch }) => {
 	const { accessToken } = await parent();
 	const { workspaceSlug } = params;
 	const workspaceInfo = await fetch(`${PUBLIC_BASE_API}/workspace/${workspaceSlug}`, {
@@ -11,11 +11,10 @@ export const load: LayoutServerLoad = async ({ parent, params, fetch }) => {
 		}
 	});
 
-	if (!workspaceInfo.ok)
-	{
-		redirect(302, '/')
+	if (!workspaceInfo.ok) {
+		redirect(302, '/');
 	}
 	return {
-        info: workspaceInfo.ok ? await workspaceInfo.json() : null
-    };
+		info: workspaceInfo.ok ? await workspaceInfo.json() : null
+	};
 };

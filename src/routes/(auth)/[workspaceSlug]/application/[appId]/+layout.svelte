@@ -8,20 +8,33 @@
 	import Status from '$lib/components/customs/applications/status.svelte';
 
 	import type { LayoutProps } from './$types';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { goto, invalidateAll } from '$app/navigation';
+	import { PUBLIC_BASE_API } from '$env/static/public';
 
 	let { data, children }: LayoutProps = $props();
+
+	let status = $state(data.appInfo.status || '');
+	let tailingURL = $state(page.url.pathname.split('/').pop());
+
+	$effect(() => {
+		const statusLog = new WebSocket(`${PUBLIC_BASE_API}/application/${data.appInfo.id}/status`);
+		statusLog.onmessage = (event) => {
+			status = event.data;
+		};
+	});
 </script>
 
 <div>
 	<Breadcrumb.Root>
 		<Breadcrumb.List>
 			<Breadcrumb.Item>
-				<Breadcrumb.Link class="hover:cursor-pointer hover:underline" onclick={() => goto(`/${$page.params.workspaceSlug}/applications`, {
-					invalidateAll: true
-				})}
-					>Applications</Breadcrumb.Link
+				<Breadcrumb.Link
+					class="hover:cursor-pointer hover:underline"
+					onclick={() =>
+						goto(`/${page.params.workspaceSlug}/applications`, {
+							invalidateAll: true
+						})}>Applications</Breadcrumb.Link
 				>
 			</Breadcrumb.Item>
 			<Breadcrumb.Separator />
@@ -33,39 +46,32 @@
 		<h2 class="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
 			{data.appInfo.name}
 		</h2>
-		<Status status={data.appInfo.status} />
+		<Status status={status} />
 	</div>
 </div>
 
-<Tabs.Root value="general" class="w-full py-6">
+<Tabs.Root bind:value={tailingURL} class="w-full py-6">
 	<Tabs.List class="grid w-full grid-cols-3">
 		<Tabs.Trigger
-			value="general"
+			value="info"
 			onclick={() => {
-				goto(`/${$page.params.workspaceSlug}/application/${$page.params.appId}/info`, {
-					invalidateAll: true
-				}
-				);
+				goto(`/${page.params.workspaceSlug}/application/${page.params.appId}/info`);
 			}}>Info</Tabs.Trigger
 		>
 		<Tabs.Trigger
 			value="logs"
 			onclick={() => {
-				goto(`/${$page.params.workspaceSlug}/application/${$page.params.appId}/logs`, {
-					invalidateAll: true
-				});
+				goto(`/${page.params.workspaceSlug}/application/${page.params.appId}/logs`);
 			}}>Logs</Tabs.Trigger
 		>
 		<Tabs.Trigger
-			value="setting"
+			value="settings"
 			onclick={() => {
-				goto(`/${$page.params.workspaceSlug}/application/${$page.params.appId}/settings` , {
-					invalidateAll: true
-				});
+				goto(`/${page.params.workspaceSlug}/application/${page.params.appId}/settings`);
 			}}>Settings</Tabs.Trigger
 		>
 	</Tabs.List>
-	<Tabs.Content value="general">
+	<Tabs.Content value="info">
 		<Card.Root>
 			<Card.Content>
 				{@render children()}
@@ -79,7 +85,7 @@
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>
-	<Tabs.Content value="setting">
+	<Tabs.Content value="settings">
 		<Card.Root>
 			<Card.Content>
 				{@render children()}

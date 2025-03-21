@@ -34,10 +34,10 @@
 				<h2
 					class="scroll-m-20 pb-4 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
 				>
-					Applications ({applications.length})
+					Applications ({applications.length}/{data.userProfile.applicationQuota})
 				</h2>
 				<ScrollArea class="w-fit h-[25em] xl:h-[34em] md:h-[28em]">
-					<div class="flex flex-row gap-3 flex-wrap items-center justify-center">
+					<div class="flex flex-row gap-3 flex-wrap items-center justify-start">
 						{#each applications as service}
 							<CardApp {service} info={data}/>
 						{/each}

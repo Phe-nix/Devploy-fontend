@@ -52,6 +52,17 @@
 	let newStartCommand = $state('node build/index.js');
 	let newPort = $state('3000');
 
+	$effect(() => {
+		if (sourceState == 'config') {
+			if (buildPack == 'static') {
+				newInstallCommand = '';
+				newBuildCommand = '';
+				newStartCommand = '';
+				newPort = '';
+			}
+		}
+	});
+
 	let numEnv = $state(1);
 	let newEnv = $state([{ key: '', value: '' }]);
 	const getRepos = async (source: any, search: string = '') => {
@@ -80,16 +91,13 @@
 		if (!source || !repo) {
 			throw new Error('Source or repo not found');
 		}
-		const res = await fetch(
-			`${PUBLIC_BASE_API}/source/${source.installID}/${repo.name}/branches`,
-			{
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					authorization: `Bearer ${data.accessToken}`
-				}
+		const res = await fetch(`${PUBLIC_BASE_API}/source/${source.installID}/${repo.name}/branches`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				authorization: `Bearer ${data.accessToken}`
 			}
-		);
+		});
 		if (res.ok) {
 			const data = await res.json();
 			return data;
@@ -496,14 +504,17 @@
 								.filter(([_, { key, value }]) => key.trim() !== '' && value.trim() !== '')
 								.map(([_, { key, value }]) => `${key.trim()}=${value.trim()}`);
 
-							const config = {
-								...app.config,
-								installCommand: newInstallCommand,
-								buildCommand: newBuildCommand,
-								startCommand: newStartCommand,
-								port: newPort,
-								config: env
-							};
+							const config =
+								buildPack == 'static'
+									? {}
+									: {
+											...app.config,
+											installCommand: newInstallCommand,
+											buildCommand: newBuildCommand,
+											startCommand: newStartCommand,
+											port: newPort,
+											config: env
+										};
 
 							const reqConfig = await axios.put(
 								`${PUBLIC_BASE_API}/application/${app.applicationId}`,

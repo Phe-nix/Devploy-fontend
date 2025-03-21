@@ -10,9 +10,10 @@
 
 	import type { PageData } from './$types';
 	import axios from 'axios';
+	import { page } from '$app/state';
 	import { PUBLIC_BASE_API } from '$env/static/public';
 	import { toast } from 'svelte-sonner';
-	import { invalidateAll } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { Globe } from 'lucide-svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { KeyRound } from 'lucide-svelte';
@@ -55,7 +56,7 @@
 		toast.promise(req, {
 			loading: 'Loading...',
 			success: () => {
-				invalidateAll();
+				goto(`/${page.params.workspaceSlug}/application/${data.appInfo.id}/logs`);
 				return data.appInfo.name + ' has been Deployed';
 			},
 			error: (e: any) => {

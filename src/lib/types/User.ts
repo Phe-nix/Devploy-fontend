@@ -6,4 +6,6 @@ export type User = {
   email: string;
   picture: string;
   role: string;
+  applicationQuota: number;
+  databaseQuota: number;
 }

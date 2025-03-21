@@ -32,7 +32,7 @@
           <h2
             class="scroll-m-20 pb-4 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
           >
-            Databases ({services.length})
+            Databases ({services.length}/{data.userProfile.databaseQuota})
           </h2>
           <ScrollArea class="w-fit h-[25em] xl:h-[34em] md:h-[28em]">
             <div
