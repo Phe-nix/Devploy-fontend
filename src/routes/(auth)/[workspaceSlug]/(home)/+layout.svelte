@@ -6,6 +6,8 @@
 	// import components
 	import { Plus } from 'lucide-svelte';
 
+	let tailingURL = $state(page.url.pathname.split('/').pop());
+
 	// import data
 	import type { LayoutProps } from './$types';
 	import { goto } from '$app/navigation';
@@ -13,22 +15,27 @@
 	const tabs = [
 		{
 			title: 'applications',
-			value: 'app'
+			value: 'applications'
 		},
 		{
 			title: 'databases',
-			value: 'database'
+			value: 'databases'
 		},
 		{
 			title: 'settings',
-			value: 'setting'
+			value: 'profile'
 		}
 	];
+
+	$effect(() => {
+		tailingURL = page.url.pathname.split('/').pop()
+	})
 
 	let { children }: LayoutProps = $props();
 </script>
 
 <div>
+	{tailingURL}
 	<div class="flex justify-between items-center">
 		<h2
 			class="scroll-m-20 pb-2 text-2xl sm:text-3xl font-semibold tracking-tight transition-colors first:mt-0"
@@ -57,22 +64,22 @@
 			</Button>
 		{/if}
 	</div>
-	<Tabs.Root value="app" class="w-full pt-6">
+	<Tabs.Root bind:value={tailingURL} class="w-full pt-6">
 		<Tabs.List class="grid w-full grid-cols-3">
 			<Tabs.Trigger
-				value="app"
+				value="applications"
 				onclick={() => {
 					goto(`/${page.params.workspaceSlug}/applications`);
 				}}>Applications</Tabs.Trigger
 			>
 			<Tabs.Trigger
-				value="database"
+				value="databases"
 				onclick={() => {
 					goto(`/${page.params.workspaceSlug}/databases`);
 				}}>Databases</Tabs.Trigger
 			>
 			<Tabs.Trigger
-				value="setting"
+				value="profile"
 				onclick={() => {
 					goto(`/${page.params.workspaceSlug}/settings/profile`);
 				}}>Setting</Tabs.Trigger
