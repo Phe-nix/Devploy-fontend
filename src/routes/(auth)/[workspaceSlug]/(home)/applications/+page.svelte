@@ -16,7 +16,7 @@
 
 	$effect(() => {
 		applications = data.info.Appication;
-	})
+	});
 </script>
 
 <Card.Root>
