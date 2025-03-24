@@ -1,20 +1,12 @@
 <script lang="ts">
 	// import shadcn-svelte
-	import * as Popover from '$lib/components/ui/popover';
 	import * as Avatar from '$lib/components/ui/avatar';
-	import { Badge } from '$lib/components/ui/badge';
 	import { badgeVariants } from '$lib/components/ui/badge';
 
 	// SVG Icons
-	import { Package } from 'lucide-svelte';
-	import { Ellipsis } from 'lucide-svelte';
 	import { Github } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-
-	// compo
-	// import EditServices from "./applications/edit-services.svelte";
-	// import AlertDelete from "./applications/alert-delete.svelte";
+	import { page } from '$app/state';
 
 	let { service, info } = $props();
 </script>
@@ -23,7 +15,7 @@
 	<button
 		class="z-0"
 		onclick={() => {
-			goto(`/${$page.params.workspaceSlug}/application/${service.id}/info`);
+			goto(`/${page.params.workspaceSlug}/application/${service.id}/info`);
 		}}
 	>
 		<div
@@ -47,9 +39,6 @@
 							<div class="p-1 rounded bg-gray-500"></div>
 						{/if}
 					</div>
-					<!-- <p class="text-sm text-muted-foreground">
-						Create at {service.time} minutes ago
-					</p> -->
 				</div>
 			</div>
 			<div class="mt-4 text-left">

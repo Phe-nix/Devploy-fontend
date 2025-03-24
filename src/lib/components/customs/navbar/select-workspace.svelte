@@ -15,7 +15,7 @@
 	import * as Select from '$lib/components/ui/select/index.js';
 
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
+	import { goto, invalidate, invalidateAll } from '$app/navigation';
 	import axios from 'axios';
 	import { PUBLIC_BASE_API } from '$env/static/public';
 	import { toast } from 'svelte-sonner';
@@ -29,13 +29,6 @@
 			.replace(/[^a-zA-Z0-9-_\.]/g, '')
 	);
 	let selectedWorkspace = $state($page.params.workspaceSlug);
-
-	// $effect(() => {
-	// 	console.log('refresh page');
-	// 	goto(`/${selectedWorkspace}/applications`, {
-	// 		invalidateAll: true
-	// 	});
-	// });
 
 	let reWorkspaceName = $state('');
 	let reWorkspaceSlug = $derived(
