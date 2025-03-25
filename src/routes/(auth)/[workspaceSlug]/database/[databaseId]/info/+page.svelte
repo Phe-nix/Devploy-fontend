@@ -14,6 +14,8 @@
 
 	import { CircleUser } from 'lucide-svelte';
 	import { Lock } from 'lucide-svelte';
+	import { Eye } from 'lucide-svelte';
+	import { EyeClosed } from 'lucide-svelte';
 
 	type Props = {
 		data: PageData;
@@ -67,18 +69,21 @@
 			}
 		});
 	};
+	let isShowPass = $state(false);
 </script>
 
 <div class="my-4 flex flex-col space-y-5">
 	<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Database Deployment</h3>
 	<div class="flex gap-3">
 		<Button
+			disabled={data.databaseInfo.status == "Deployed"}
 			size="sm"
 			onclick={() => {
 				startDB();
 			}}>Start</Button
 		>
 		<Button
+			disabled={data.databaseInfo.status == "notStarted"}
 			size="sm"
 			onclick={() => {
 				stopDB();
@@ -128,7 +133,24 @@
 			<Label class="text-muted-foreground">Password</Label>
 			<div class="flex items-center gap-2">
 				<Lock class="size-5" />
-				<p class="font-semibold">{data.databaseInfo.password}</p>
+				{#if isShowPass == true}
+					<p class="font-semibold">{data.databaseInfo.password}</p>
+				{:else}
+				<p class="font-semibold">*******</p>
+				{/if}
+				<Button
+					variant="ghost"
+					size="sm"
+					onclick={() => {
+						isShowPass = !isShowPass;
+					}}
+				>
+					{#if isShowPass == true}
+						<EyeClosed />
+					{:else}
+						<Eye />
+					{/if}
+				</Button>
 			</div>
 		</div>
 	</div>

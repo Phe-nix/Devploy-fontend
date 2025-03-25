@@ -1,14 +1,12 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { RefreshCcw } from 'lucide-svelte';
-	import { Hammer } from 'lucide-svelte';
-	import { CirclePlay } from 'lucide-svelte';
 	import { Label } from '$lib/components/ui/label/index.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
 	import { Github } from 'lucide-svelte';
 	import { GitBranch } from 'lucide-svelte';
 
 	import type { PageData } from './$types';
+	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import axios from 'axios';
 	import { page } from '$app/state';
 	import { PUBLIC_BASE_API } from '$env/static/public';
@@ -16,7 +14,9 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { Globe } from 'lucide-svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
-	import { KeyRound } from 'lucide-svelte';
+	import * as Accordion from '$lib/components/ui/accordion/index.js';
+	import { Minus } from 'lucide-svelte';
+	import { Plus } from 'lucide-svelte';
 
 	const stacks = [
 		{
@@ -69,6 +69,16 @@
 	let newBuildCommand = $state(data.appInfo.config.buildCommand || '');
 	let newStartCommand = $state(data.appInfo.config.startCommand || '');
 	let newPort = $state(data.appInfo.config.port || '');
+	let env = $state(data.appInfo.config.env);
+	let numEnv = $state(0);
+
+	const envArray = env.map((item: string) => {
+		const [key, value] = item.split('=');
+		return { key, value };
+	});
+
+	let preEnv = $state<{ key: string; value: string }[]>(envArray);
+	let newEnv = $state<{ key: string; value: string }[]>([]);
 
 	const buildCongfig = () => {
 		const application = data.appInfo;
@@ -102,6 +112,52 @@
 			}
 		});
 	};
+
+	const updateEnvConfig = () => {
+		let env1: string[] = Object.entries(newEnv).map(
+			([key, value]) => `${value.key}=${value.value}`
+		);
+		let env2: string[] = Object.entries(preEnv).map(
+			([key, value]) => `${value.key}=${value.value}`
+		);
+		const updateEnv = [...env1, ...env2];
+
+		const config =
+			data.appInfo.buildPack == 'static'
+				? {}
+				: {
+						...data.appInfo.config,
+						installCommand: newInstallCommand,
+						buildCommand: newBuildCommand,
+						startCommand: newStartCommand,
+						port: newPort,
+						env: updateEnv
+					};
+		const req = axios.put(
+			`${PUBLIC_BASE_API}/application/${data.appInfo.id}`,
+			{
+				config
+			},
+			{
+				headers: {
+					'Content-Type': 'application/json',
+					authorization: `Bearer ${data.accessToken}`
+				}
+			}
+		);
+		toast.promise(req, {
+			loading: 'Loading...',
+			success: () => {
+				goto(`/${page.params.workspaceSlug}/application/${data.appInfo.id}/info`, {
+					invalidateAll: true
+				});
+				return 'Config has been Updated';
+			},
+			error: (e: any) => {
+				return e.message;
+			}
+		});
+	};
 </script>
 
 <div class="my-4 flex flex-col space-y-5">
@@ -116,33 +172,163 @@
 	</div>
 	<Separator />
 	{#if data.appInfo.buildPack != 'static'}
-		<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Update config</h3>
-		<div class="flex flex-col gap-3 px-10">
-			<div class="flex flex-col gap-2">
-				<Label class="text-muted-foreground" for="terms">Install command</Label>
-				<Input class="" type="text" placeholder="install command" bind:value={newInstallCommand} />
-			</div>
-			<div class="flex flex-col gap-2">
-				<Label class="text-muted-foreground" for="terms">Build command</Label>
-				<Input class="" type="text" placeholder="build command" bind:value={newBuildCommand} />
-			</div>
-			<div class="flex flex-col gap-2">
-				<Label class="text-muted-foreground" for="terms">Start command</Label>
-				<Input class="" type="text" placeholder="start command" bind:value={newStartCommand} />
-			</div>
-			<div class="flex flex-col gap-2">
-				<Label class="text-muted-foreground" for="terms">Port</Label>
-				<Input class="" type="text" placeholder="port" bind:value={newPort} />
-			</div>
-			<Button
-				size="sm"
-				class="w-22 self-end my-2"
-				onclick={() => {
-					buildCongfig();
-				}}>Update</Button
-			>
-		</div>
-		<Separator />
+		<Accordion.Root type="single">
+			<Accordion.Item value="item-1">
+				<Accordion.Trigger
+					><h3 class="scroll-m-20 text-xl font-semibold tracking-tight">
+						Update config
+					</h3></Accordion.Trigger
+				>
+				<Accordion.Content
+					><div class="flex flex-col gap-3 px-10">
+						<div class="flex flex-col gap-2">
+							<Label class="text-muted-foreground" for="terms">Install command</Label>
+							<Input
+								class=""
+								type="text"
+								placeholder="install command"
+								bind:value={newInstallCommand}
+							/>
+						</div>
+						<div class="flex flex-col gap-2">
+							<Label class="text-muted-foreground" for="terms">Build command</Label>
+							<Input
+								class=""
+								type="text"
+								placeholder="build command"
+								bind:value={newBuildCommand}
+							/>
+						</div>
+						<div class="flex flex-col gap-2">
+							<Label class="text-muted-foreground" for="terms">Start command</Label>
+							<Input
+								class=""
+								type="text"
+								placeholder="start command"
+								bind:value={newStartCommand}
+							/>
+						</div>
+						<div class="flex flex-col gap-2">
+							<Label class="text-muted-foreground" for="terms">Port</Label>
+							<Input class="" type="text" placeholder="port" bind:value={newPort} />
+						</div>
+						<Button
+							size="sm"
+							class="w-22 self-end my-2"
+							onclick={() => {
+								buildCongfig();
+							}}>Update</Button
+						>
+					</div>
+				</Accordion.Content>
+			</Accordion.Item>
+			<Accordion.Item value="item-2">
+				<Accordion.Trigger
+					><h3 class="scroll-m-20 text-xl font-semibold tracking-tight">
+						Environment config
+					</h3></Accordion.Trigger
+				>
+				<Accordion.Content>
+					<div>
+						{#each Array(preEnv.length) as _, index}
+							<div class="flex items-center gap-2 my-2 justify-center">
+								<div class="flex flex-col gap-2 w-full">
+									{#if index == 0}
+										<Label>Key</Label>
+									{/if}
+									<Input
+										type="text"
+										placeholder="KEY_NAME"
+										class=""
+										bind:value={preEnv[index].key}
+									/>
+								</div>
+								<div class="flex flex-col gap-2 w-full">
+									{#if index == 0}
+										<Label>Value</Label>
+									{/if}
+									<Input
+										type="text"
+										placeholder="IJ57994POSD"
+										class=""
+										bind:value={preEnv[index].value}
+									/>
+								</div>
+								<AlertDialog.Root>
+									<AlertDialog.Trigger class="self-end"
+										><Button>
+											<Minus class="size-6" />
+										</Button></AlertDialog.Trigger
+									>
+									<AlertDialog.Content>
+										<AlertDialog.Header>
+											<AlertDialog.Title>Are you sure to remove?</AlertDialog.Title>
+											<AlertDialog.Description>
+												This action cannot be undone. This will delete your Env key and value out
+												from our servers.
+											</AlertDialog.Description>
+										</AlertDialog.Header>
+										<AlertDialog.Footer>
+											<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+											<AlertDialog.Action
+												onclick={() => {
+													preEnv.splice(index, 1);
+												}}>Continue</AlertDialog.Action
+											>
+										</AlertDialog.Footer>
+									</AlertDialog.Content>
+								</AlertDialog.Root>
+							</div>
+						{/each}
+						{#each Array(numEnv) as _, index}
+							<div class="flex items-center gap-2 my-2 justify-center">
+								<div class="flex flex-col gap-2 w-full">
+									{#if index == 0}
+										<Label>Key</Label>
+									{/if}
+									<Input type="text" placeholder="KEY_NAME" bind:value={newEnv[index].key} />
+								</div>
+								<div class="flex flex-col gap-2 w-full">
+									{#if index == 0}
+										<Label>Value</Label>
+									{/if}
+									<Input
+										type="text"
+										placeholder="IJ57994POSD"
+										class=""
+										bind:value={newEnv[index].value}
+									/>
+								</div>
+								<Button
+									class="self-end"
+									onclick={() => {
+										newEnv = newEnv.filter((_, i) => i !== index);
+										numEnv -= 1;
+									}}><Minus class="size-6" /></Button
+								>
+							</div>
+						{/each}
+						<Button
+							size="sm"
+							class="my-4 flex items-center"
+							onclick={() => {
+								newEnv = [...newEnv, { key: '', value: '' }];
+								numEnv += 1;
+							}}
+						>
+							<Plus class="size-6" />
+						</Button>
+						<Button
+							size="sm"
+							class="float-end my-4"
+							onclick={() => {
+								updateEnvConfig();
+							}}>Update</Button
+						>
+					</div>
+				</Accordion.Content>
+			</Accordion.Item>
+		</Accordion.Root>
 	{/if}
 	<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Application info</h3>
 	<div class="grid grid-cols-2 gap-4">
@@ -150,8 +336,9 @@
 			<Label class="text-muted-foreground" for="terms">Deployment</Label>
 			<div class="flex items-center gap-2">
 				<Globe class="size-5" />
-				<a href={`http://${data.appInfo.url}.${data.settingInfo.baseUrl}`} class="font-semibold hover:underline"
-					>{data.appInfo.url}.{data.settingInfo.baseUrl}</a
+				<a
+					href={`http://${data.appInfo.url}.${data.settingInfo.baseUrl}`}
+					class="font-semibold hover:underline">{data.appInfo.url}.{data.settingInfo.baseUrl}</a
 				>
 			</div>
 		</div>

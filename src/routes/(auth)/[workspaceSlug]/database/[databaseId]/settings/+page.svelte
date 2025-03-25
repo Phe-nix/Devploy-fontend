@@ -1,6 +1,5 @@
 <script lang="ts">
 	import DeleteDb from '$lib/components/customs/databases/settings/delete-db.svelte';
-	import FormUpdatePorts from '$lib/components/customs/databases/settings/form-update-ports.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import type { PageData } from './$types';
 	type Props = {
@@ -8,12 +7,10 @@
 	};
 
 	let { data }: Props = $props();
-	console.log(data);
 </script>
 
 <main class="my-4 flex flex-col space-y-5">
 	<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Database Settings</h3>
-	<FormUpdatePorts {data} />
 	<section
 		class="flex flex-col border rounded dark:border-[hsla(357,55%,26%,1)] border-red-300 my-4"
 	>

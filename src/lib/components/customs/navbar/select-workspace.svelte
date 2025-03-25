@@ -142,7 +142,7 @@
 									<Check
 										class={cn(
 											'ml-auto h-4 w-4',
-											selectedTeam.slug !== team.slug && 'text-transparent'
+											selectedWorkspace !== team.slug && 'text-transparent'
 										)}
 									/>
 								</Command.Item>

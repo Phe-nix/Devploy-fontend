@@ -12,18 +12,6 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-	update: async ({ request, cookies }) => {
-		const formUpdate = await superValidate(request, zod(formSchemaPort));
-		if (!formUpdate.valid) {
-			return fail(400, {
-				formUpdate
-			});
-		}
-		return {
-			formUpdate
-		};
-	},
-
 	delete: async ({ request, cookies }) => {
 		const formDelete = await superValidate(request, zod(confirmDeleteForm));
 		if (!formDelete.valid) {

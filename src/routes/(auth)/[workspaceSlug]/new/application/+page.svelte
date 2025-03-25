@@ -513,7 +513,7 @@
 											buildCommand: newBuildCommand,
 											startCommand: newStartCommand,
 											port: newPort,
-											config: env
+											env: env
 										};
 
 							const reqConfig = await axios.put(

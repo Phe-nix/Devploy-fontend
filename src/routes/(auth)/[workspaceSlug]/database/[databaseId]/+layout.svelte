@@ -8,20 +8,24 @@
 	import Status from '$lib/components/customs/applications/status.svelte';
 
 	import type { LayoutProps } from './$types';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 
 	let { data, children }: LayoutProps = $props();
-
+	let tailingURL = $state(page.url.pathname.split('/').pop());
 </script>
 
 <div>
 	<Breadcrumb.Root>
 		<Breadcrumb.List>
 			<Breadcrumb.Item>
-				<Breadcrumb.Link class="hover:cursor-pointer hover:underline" onclick={() => goto(`/${$page.params.workspaceSlug}/databases`, {
-					invalidateAll: true
-				})}>Databases</Breadcrumb.Link>
+				<Breadcrumb.Link
+					class="hover:cursor-pointer hover:underline"
+					onclick={() =>
+						goto(`/${page.params.workspaceSlug}/databases`, {
+							invalidateAll: true
+						})}>Databases</Breadcrumb.Link
+				>
 			</Breadcrumb.Item>
 			<Breadcrumb.Separator />
 			<Breadcrumb.Page>{data.databaseInfo.name}</Breadcrumb.Page>
@@ -36,29 +40,29 @@
 	</div>
 </div>
 
-<Tabs.Root value="general" class="w-full py-6">
+<Tabs.Root bind:value={tailingURL} class="w-full py-6">
 	<Tabs.List class="grid w-full grid-cols-2">
 		<Tabs.Trigger
-			value="general"
+			value="info"
 			onclick={() => {
-				goto(`/${$page.params.workspaceSlug}/database/${$page.params.databaseId}/info`);
+				goto(`/${page.params.workspaceSlug}/database/${page.params.databaseId}/info`);
 			}}>Info</Tabs.Trigger
 		>
 		<Tabs.Trigger
-			value="setting"
+			value="settings"
 			onclick={() => {
-				goto(`/${$page.params.workspaceSlug}/database/${$page.params.databaseId}/settings`);
+				goto(`/${page.params.workspaceSlug}/database/${page.params.databaseId}/settings`);
 			}}>Settings</Tabs.Trigger
 		>
 	</Tabs.List>
-	<Tabs.Content value="general">
+	<Tabs.Content value="info">
 		<Card.Root>
 			<Card.Content>
 				{@render children()}
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>
-	<Tabs.Content value="setting">
+	<Tabs.Content value="settings">
 		<Card.Root>
 			<Card.Content>
 				{@render children()}
