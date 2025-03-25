@@ -68,19 +68,25 @@
 			<Tabs.Trigger
 				value="applications"
 				onclick={() => {
-					goto(`/${page.params.workspaceSlug}/applications`);
+					goto(`/${page.params.workspaceSlug}/applications`, {
+						invalidateAll: true
+					});
 				}}>Applications</Tabs.Trigger
 			>
 			<Tabs.Trigger
 				value="databases"
 				onclick={() => {
-					goto(`/${page.params.workspaceSlug}/databases`);
+					goto(`/${page.params.workspaceSlug}/databases`, {
+						invalidateAll: true
+					});
 				}}>Databases</Tabs.Trigger
 			>
 			<Tabs.Trigger
 				value="profile"
 				onclick={() => {
-					goto(`/${page.params.workspaceSlug}/settings/profile`);
+					goto(`/${page.params.workspaceSlug}/settings/profile`, {
+						invalidateAll: true
+					});
 				}}>Setting</Tabs.Trigger
 			>
 		</Tabs.List>
