@@ -72,10 +72,10 @@
 	let env = $state(data.appInfo.config.env);
 	let numEnv = $state(0);
 
-	const envArray = env.map((item: string) => {
+	const envArray = env ? env.map((item: string) => {
 		const [key, value] = item.split('=');
 		return { key, value };
-	});
+	}) : [];
 
 	let preEnv = $state<{ key: string; value: string }[]>(envArray);
 	let newEnv = $state<{ key: string; value: string }[]>([]);
