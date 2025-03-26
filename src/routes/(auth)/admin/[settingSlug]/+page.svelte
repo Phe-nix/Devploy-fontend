@@ -14,7 +14,7 @@
 <div class="min-h-[100vh] flex-1 md:min-h-min">
 	{#if page.params.settingSlug == 'Users'}
 		<ListUsers {data} />
-	{:else if page.params.settingSlug == 'Quota'}
-		<SettingServer {data} form={data.form}/>
+	{:else if page.params.settingSlug == 'ConfigServer'}
+		<SettingServer {data}/>
 	{/if}
 </div>
