@@ -9,6 +9,9 @@
 	import { LogOut } from 'lucide-svelte';
 	import { Settings } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
+	import { PUBLIC_BASE_API } from '$env/static/public';
+	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 
 	const { userProfile } = $props();
 	let isopen = $state(false);
@@ -29,12 +32,15 @@
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content align="start" class="w-56 ">
 			<DropdownMenu.Label class="text-lg"
-				>{userProfile.firstName} {userProfile.lastName}</DropdownMenu.Label
-			>
+				>{userProfile.firstName} {userProfile.lastName}</DropdownMenu.Label>
 			<DropdownMenu.Separator />
-			<DropdownMenu.Item class="flex flex-row gap-x-2 cursor-pointer">
-				<Settings class="text-primary" />
-				Settings
+			<DropdownMenu.Item>
+				<button class="flex flex-row gap-x-2 cursor-pointer" onclick={() => {
+					goto(`/${page.params.workspaceSlug}/settings/profile`);
+				}}>
+					<Settings class="text-primary" />
+					Settings
+				</button>
 			</DropdownMenu.Item>
 			<DropdownMenu.Separator />
 			<DropdownMenu.Item>
