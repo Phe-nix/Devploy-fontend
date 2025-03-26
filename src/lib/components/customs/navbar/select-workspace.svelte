@@ -31,12 +31,6 @@
 	let selectedWorkspace = $state($page.params.workspaceSlug);
 
 	let reWorkspaceName = $state('');
-	let reWorkspaceSlug = $derived(
-		reWorkspaceName
-			.toLowerCase()
-			.replaceAll(' ', '-')
-			.replace(/[^a-zA-Z0-9-_\.]/g, '')
-	);
 
 	const createWorkspace = async () => {
 		const res = axios.post(
@@ -108,7 +102,7 @@
 					/>
 					<Avatar.Fallback>SC</Avatar.Fallback>
 				</Avatar.Root>
-				<p class="text-sm font-bold text-gray-400">
+				<p class="text-sm font-bold text-gray-400 truncate">
 					{selectedWorkspace}
 				</p>
 				<ChevronsUpDown class="ml-auto h-4 w-4 shrink-0 opacity-50" />
