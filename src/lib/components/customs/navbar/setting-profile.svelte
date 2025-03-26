@@ -22,12 +22,10 @@
 >
 	<DropdownMenu.Root>
 		<DropdownMenu.Trigger>
-			<Button variant="ghost">
-				<Avatar.Root>
-					<Avatar.Image src={userProfile.picture} alt="@shadcn" />
-					<Avatar.Fallback>CN</Avatar.Fallback>
-				</Avatar.Root>
-			</Button>
+			<Avatar.Root class="transition ring-0 hover:ring-4 hover:ring-accent">
+				<Avatar.Image src={userProfile.picture} alt="@shadcn" />
+				<Avatar.Fallback>CN</Avatar.Fallback>
+			</Avatar.Root>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content align="start" class="w-56 ">
 			<DropdownMenu.Label class="text-lg"
