@@ -4,13 +4,22 @@
 	import { cubicInOut } from 'svelte/easing';
 	import { crossfade } from 'svelte/transition';
 	import { cn } from '$lib/utils.js';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { Button } from '$lib/components/ui/button';
 
 	import type { LayoutProps } from './$types';
 	import { goto } from '$app/navigation';
 
-	let nowPageSide = $state('Profile');
+	const Capitalize = (str: string) => {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	};
+
+	let title = $state(Capitalize(page.url.pathname.split('/').pop() || 'Profile'));
+
+	$effect(() => {
+		title = Capitalize(page.url.pathname.split('/').pop() || 'Profile');
+	});
+
 
 	const sidebarNavItems = $state([
 		{
@@ -42,13 +51,6 @@
 		easing: cubicInOut
 	});
 
-	let isActive: boolean = $state(true);
-	let title: string = $state('');
-	const active = (text: string) => {
-		title = text;
-		nowPageSide = text;
-	};
-
 	let { children }: LayoutProps = $props();
 </script>
 
@@ -66,17 +68,13 @@
 						{#each sidebarNavItems as item}
 							<Button
 								onclick={() => {
-									active(item.title);
-									goto(`/${$page.params.workspaceSlug}/settings/${item.title.toLowerCase()}`);
+									goto(`/${page.params.workspaceSlug}/settings/${item.title.toLowerCase()}`);
 								}}
 								variant="ghost"
-								class={cn(
-									!isActive && 'hover:underline',
-									'relative justify-start hover:bg-transparent'
-								)}
+								class={'relative justify-start hover:bg-transparent'}
 								data-sveltekit-noscroll
 							>
-								{#if isActive && title === item.title}
+								{#if title === item.title}
 									<div
 										class="bg-muted absolute inset-0 rounded-md"
 										in:send={{ key: 'active-sidebar-tab' }}
