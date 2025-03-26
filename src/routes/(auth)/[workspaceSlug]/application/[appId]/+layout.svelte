@@ -82,37 +82,11 @@
 			}}>Settings</Tabs.Trigger
 		>
 	</Tabs.List>
-	{#if page.url.pathname.split('/').pop() == 'info'}	
-	<Tabs.Content value="info">
+	<Tabs.Content value={page.url.pathname.split('/').pop()?.toString() || ''}>
 		<Card.Root>
 			<Card.Content>
 				{@render children()}
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>
-	{:else if page.url.pathname.split('/').pop() == 'logs'}
-	<Tabs.Content value="logs">
-		<Card.Root>
-			<Card.Content>
-				{@render children()}
-			</Card.Content>
-		</Card.Root>
-	</Tabs.Content>
-	{:else if page.url.pathname.split('/').pop() == 'monitor'}
-	<Tabs.Content value="monitor">
-		<Card.Root>
-			<Card.Content>
-				{@render children()}
-			</Card.Content>
-		</Card.Root>
-	</Tabs.Content>
-	{:else if page.url.pathname.split('/').pop() == 'settings'}
-	<Tabs.Content value="settings">
-		<Card.Root>
-			<Card.Content>
-				{@render children()}
-			</Card.Content>
-		</Card.Root>
-	</Tabs.Content>
-	{/if}
 </Tabs.Root>
