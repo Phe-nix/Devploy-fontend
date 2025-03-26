@@ -11,11 +11,15 @@
 
 	let { data }: PageProps = $props();
 
-	let applications = $state(data.info.Appication);
-	let search = $state();
-
+	let allApplications = $state(data.info.Appication)
+	let applications = $state(allApplications);
+	let search: string = $state('');
+	
 	$effect(() => {
 		applications = data.info.Appication;
+		applications = allApplications.filter((app: { name: string; }) =>
+			app.name.toLowerCase().includes(search.toLowerCase())
+		);
 	});
 </script>
 
