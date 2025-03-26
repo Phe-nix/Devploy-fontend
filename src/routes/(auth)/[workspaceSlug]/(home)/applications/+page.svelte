@@ -39,11 +39,14 @@
 			<EmtpyApp type="service" />
 		{:else}
 			<div class="my-2">
-				<h2
-					class="scroll-m-20 pb-4 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
-				>
-					Applications ({data.info.Appication.length}/{data.userProfile.applicationQuota})
-				</h2>
+				<div class="flex items-center justify-between pb-4">
+					<h2
+						class="scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
+					>
+						Applications ({data.info.Appication.length}/{data.userProfile.applicationQuota})
+					</h2>
+					<p class="text-muted-foreground font-semibold">You have {data.userProfile.applicationQuota - data.quotaApp.used } quota application left</p>
+				</div>
 				<ScrollArea class="w-fit h-[25em] xl:h-[34em] md:h-[28em]">
 					<div class="flex flex-row gap-3 flex-wrap items-center justify-start">
 						{#each applications as service}

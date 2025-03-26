@@ -35,7 +35,7 @@
 		}
 	})
 
-	let { children }: LayoutProps = $props();
+	let { data ,children }: LayoutProps = $props();
 </script>
 
 <div>
@@ -47,6 +47,7 @@
 		</h2>
 		{#if page.url.pathname == '/' + page.params.workspaceSlug + '/applications' || page.url.pathname == '/' + page.params.workspaceSlug + '/applications/'}
 			<Button
+				disabled={data.userProfile.applicationQuota - data.quotaApp.used <= 0}
 				size="sm"
 				onclick={() => {
 					goto(`/${page.params.workspaceSlug}/new/application`, { invalidateAll: true });
@@ -57,6 +58,7 @@
 			</Button>
 		{:else if page.url.pathname == '/' + page.params.workspaceSlug + '/databases' || page.url.pathname == '/' + page.params.workspaceSlug + '/databases/'}
 			<Button
+				disabled={data.userProfile.databaseQuota - data.quotaDB.used <= 0}
 				size="sm"
 				onclick={() => {
 					goto(`/${page.params.workspaceSlug}/new/database`, { invalidateAll: true });
