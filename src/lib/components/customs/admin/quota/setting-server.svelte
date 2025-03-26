@@ -2,27 +2,35 @@
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { z } from 'zod';
-	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { type SuperValidated, type Infer, superForm, defaults } from 'sveltekit-superforms';
+	import { zod, zodClient } from 'sveltekit-superforms/adapters';
 	import { PUBLIC_BASE_API } from '$env/static/public';
 	import axios from 'axios';
 	import { toast } from 'svelte-sonner';
 	import { goto } from '$app/navigation';
 
-	let { data, form: initialForm }: { data: any; form: SuperValidated<Infer<FormSchemaLimit>> } =
+	let { data}: { data: any;} =
 		$props();
 
+	let baseurl = $state(data.baseSetting.baseUrl)
+	let reservePort = $state(data.baseSetting.reservePort)
+	let reservePortEnd = $state(data.baseSetting.reservePortEnd)
+	let defaultApp = $state(data.baseSetting.defaultApplictionQuota)
+	let defaultDB = $state(data.baseSetting.defaultDatabaseQuota)
+
+
 	const formSchemalimit = z.object({
-		baseUrl: z.string().min(2).max(25).default(data.baseSetting.baseUrl),
-		reservePort: z.number().int().positive(),
-		reservePortEnd: z.number().int().positive(),
-		defaultApplicationQuota: z.number().int().positive(),
-		defaultDatabaseQuota: z.number().int().positive()
+		baseUrl: z.string().min(2).max(25).default(baseurl),
+		reservePort: z.number().int().positive().default(reservePort),
+		reservePortEnd: z.number().int().positive().default(reservePortEnd),
+		defaultApplicationQuota: z.number().int().positive().default(defaultApp),
+		defaultDatabaseQuota: z.number().int().positive().default(defaultDB)
 	});
 
 	type FormSchemaLimit = typeof formSchemalimit;
 
-	const form = superForm(initialForm, {
+	const form = superForm(defaults(zod(formSchemalimit)), {
+		SPA: true,
 		validators: zodClient(formSchemalimit),
 		onUpdate({ form }) {
 			if (form.valid) {
@@ -60,13 +68,13 @@
 			}
 		}
 	});
-
 	const { form: formData, enhance } = form;
 </script>
 
 <div>
 	<div class="p-4">
-		<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Setting limit</h3>
+		<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Config Server</h3>
+		{baseurl + ' ' + reservePort}
 	</div>
 	<div class="mx-auto w-1/2">
 		<form method="POST" use:enhance class="flex flex-col">
@@ -75,7 +83,6 @@
 					{#snippet children({ props })}
 						<div class="flex items-center gap-2">
 							<Form.Label>BaseUrl</Form.Label>
-							<p class="text-xs text-muted-foreground">{'( ' + data.baseSetting.baseUrl + ' )'}</p>
 						</div>
 						<Input {...props} bind:value={$formData.baseUrl} />
 					{/snippet}
@@ -87,9 +94,6 @@
 					{#snippet children({ props })}
 						<div class="flex items-center gap-2">
 							<Form.Label>ReservePort</Form.Label>
-							<p class="text-xs text-muted-foreground">
-								{'( ' + data.baseSetting.reservePort + ' )'}
-							</p>
 						</div>
 						<Input type="number" {...props} bind:value={$formData.reservePort} />
 					{/snippet}
@@ -101,9 +105,6 @@
 					{#snippet children({ props })}
 						<div class="flex items-center gap-2">
 							<Form.Label>ReservePortEnd</Form.Label>
-							<p class="text-xs text-muted-foreground">
-								{'( ' + data.baseSetting.reservePortEnd + ' )'}
-							</p>
 						</div>
 						<Input type="number" {...props} bind:value={$formData.reservePortEnd} />
 					{/snippet}
@@ -116,9 +117,6 @@
 					{#snippet children({ props })}
 						<div class="flex items-center gap-2">
 							<Form.Label>DefaultApplicationQuota</Form.Label>
-							<p class="text-xs text-muted-foreground">
-								{'( ' + data.baseSetting.defaultApplictionQuota + ' )'}
-							</p>
 						</div>
 						<Input type="number" {...props} bind:value={$formData.defaultApplicationQuota} />
 					{/snippet}
@@ -130,9 +128,6 @@
 					{#snippet children({ props })}
 						<div class="flex items-center gap-2">
 							<Form.Label>DefaultDatabaseQuota</Form.Label>
-							<p class="text-xs text-muted-foreground">
-								{'( ' + data.baseSetting.defaultDatabaseQuota + ' )'}
-							</p>
 						</div>
 						<Input type="number" {...props} bind:value={$formData.defaultDatabaseQuota} />
 					{/snippet}
