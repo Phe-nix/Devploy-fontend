@@ -55,11 +55,10 @@
 </div>
 
 <Tabs.Root bind:value={tailingURL} class="w-full py-6">
-	<Tabs.List class="grid w-full grid-cols-3">
+	<Tabs.List class="grid w-full grid-cols-4">
 		<Tabs.Trigger
 			value="info"
 			onclick={() => {
-				
 				goto(`/${page.params.workspaceSlug}/application/${page.params.appId}/info`);
 			}}>Info</Tabs.Trigger
 		>
@@ -70,12 +69,20 @@
 			}}>Logs</Tabs.Trigger
 		>
 		<Tabs.Trigger
+			disabled={status != 'Deployed'}
+			value="monitor"
+			onclick={() => {
+				goto(`/${page.params.workspaceSlug}/application/${page.params.appId}/monitor`);
+			}}>Monitor</Tabs.Trigger
+		>
+		<Tabs.Trigger
 			value="settings"
 			onclick={() => {
 				goto(`/${page.params.workspaceSlug}/application/${page.params.appId}/settings`);
 			}}>Settings</Tabs.Trigger
 		>
 	</Tabs.List>
+	{#if page.url.pathname.split('/').pop() == 'info'}	
 	<Tabs.Content value="info">
 		<Card.Root>
 			<Card.Content>
@@ -83,6 +90,7 @@
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>
+	{:else if page.url.pathname.split('/').pop() == 'logs'}
 	<Tabs.Content value="logs">
 		<Card.Root>
 			<Card.Content>
@@ -90,6 +98,15 @@
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>
+	{:else if page.url.pathname.split('/').pop() == 'monitor'}
+	<Tabs.Content value="monitor">
+		<Card.Root>
+			<Card.Content>
+				{@render children()}
+			</Card.Content>
+		</Card.Root>
+	</Tabs.Content>
+	{:else if page.url.pathname.split('/').pop() == 'settings'}
 	<Tabs.Content value="settings">
 		<Card.Root>
 			<Card.Content>
@@ -97,4 +114,5 @@
 			</Card.Content>
 		</Card.Root>
 	</Tabs.Content>
+	{/if}
 </Tabs.Root>
