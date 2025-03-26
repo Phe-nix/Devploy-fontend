@@ -11,8 +11,8 @@
 						isActive: false
 					},
 					{
-						title: 'Limit servers',
-						url: '/Quota'
+						title: 'Config Server',
+						url: '/ConfigServer'
 					}
 				]
 			}
