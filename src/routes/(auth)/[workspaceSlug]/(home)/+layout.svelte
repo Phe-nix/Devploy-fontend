@@ -28,7 +28,11 @@
 	];
 
 	$effect(() => {
-		tailingURL = page.url.pathname.split('/').pop()
+		if (page.url.pathname.includes('settings')) {
+			tailingURL = 'profile';
+		} else {
+			tailingURL = page.url.pathname.split('/').pop()
+		}
 	})
 
 	let { children }: LayoutProps = $props();
