@@ -16,6 +16,10 @@
 
 	let status = $state(data.appInfo.status || '');
 	let tailingURL = $state(page.url.pathname.split('/').pop());
+	
+	$effect(() => {
+		tailingURL = page.url.pathname.split('/').pop();
+	})
 
 	$effect(() => {
 		const statusLog = new WebSocket(`${PUBLIC_BASE_API}/application/${data.appInfo.id}/status`);
@@ -55,6 +59,7 @@
 		<Tabs.Trigger
 			value="info"
 			onclick={() => {
+				
 				goto(`/${page.params.workspaceSlug}/application/${page.params.appId}/info`);
 			}}>Info</Tabs.Trigger
 		>
