@@ -7,7 +7,15 @@
 
 	let status = $state(data.appInfo.status || '');
 
+	let viewPortRef = $state<HTMLDivElement | null>(null);
+
 	let functionOut = $state<string[]>([]);
+
+	$effect(() => {
+		if (viewPortRef && functionOut) {
+			viewPortRef.scrollTo(0, viewPortRef.scrollHeight);
+		}
+	});
 
 	$effect(() => {
 		const statusLog = new WebSocket(`${PUBLIC_BASE_API}/application/${data.appInfo.id}/status`);
@@ -30,7 +38,7 @@
 
 <div class="my-4 flex flex-col space-y-5">
 	<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Application Function Logs</h3>
-	<ScrollArea class="h-96">
+	<ScrollArea bind:viewPortRef class="h-96">
 		<div
 			class="py-5 px-4 rounded border shadow w-full dark:bg-zinc-900 bg-zinc-100 dark:text-zinc-100 text-zinc-900"
 		>
