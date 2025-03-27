@@ -33,7 +33,9 @@
 					<p class="text-sm">Devploy</p>
 				</div>
 			</a>
-			<Button variant="ghost" class="text-sm font-medium text-muted-foreground">Docs</Button>
+			<Button variant="ghost" class="text-sm font-medium text-muted-foreground" onclick={() => {
+				goto('/docs/introduction')
+			}}>Docs</Button>
 			{#if workspaces.userProfile.role == 'OWNER'}
 				<Button
 					variant="ghost"
