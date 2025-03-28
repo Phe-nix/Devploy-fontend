@@ -12,6 +12,10 @@
 			{
 				title: "Introduction",
 				url: '/docs/introduction',
+			},
+			{
+				title: "Applications",
+				url: '/docs/applications'
 			}
 		]
 	}

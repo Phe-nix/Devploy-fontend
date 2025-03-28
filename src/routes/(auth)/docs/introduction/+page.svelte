@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { BicepsFlexed } from 'lucide-svelte';
 	import { Sparkles } from 'lucide-svelte';
+	import { ChevronRight } from 'lucide-svelte';
 
 	import * as Avatar from '$lib/components/ui/avatar/index.js';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import { goto } from '$app/navigation';
 </script>
 
 <div class="flex flex-col gap-y-16">
@@ -34,7 +37,7 @@
 
 	<section class="flex flex-col gap-6">
 		<h1 class="text-3xl font-bold">🔨Developers Team</h1>
-		<div class="grid md:grid-cols-3 grid-row-3">
+		<div class="grid md:grid-cols-3 grid-row-3 place-content-center gap-4">
 			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2">
 				<Avatar.Root class="size-28">
 					<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
@@ -47,8 +50,8 @@
 				<Avatar.Root class="size-28">
 					<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
 					<Avatar.Fallback>CN</Avatar.Fallback>
-				</Avatar.Root> 
-				<p class="font-semibold">Mr. Khemmathiti Wangsaptawee </p>
+				</Avatar.Root>
+				<p class="font-semibold">Mr. Khemmathiti Wangsaptawee</p>
 				<p class="text-muted-foreground text-sm">Software Developer</p>
 			</div>
 			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2">
@@ -61,4 +64,10 @@
 			</div>
 		</div>
 	</section>
+	<Button class="self-end" variant="outline" onclick={() => {
+		goto('/docs/applications')
+	}}>
+		<p>WorkSpaces</p>
+		<ChevronRight />
+	</Button>
 </div>
