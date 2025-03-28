@@ -31,6 +31,7 @@
 		"paneforge": "1.0.0-next.2",
 		"prettier": "^3.5.0",
 		"prettier-plugin-svelte": "^3.3.3",
+		"prismjs": "^1.30.0",
 		"svelte": "^5.20.0",
 		"svelte-check": "^4.1.4",
 		"svelte-sonner": "^0.3.28",

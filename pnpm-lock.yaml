@@ -78,6 +78,9 @@ importers:
       prettier-plugin-svelte:
         specifier: ^3.3.3
         version: 3.3.3(prettier@3.5.0)(svelte@5.20.0)
+      prismjs:
+        specifier: ^1.30.0
+        version: 1.30.0
       svelte:
         specifier: ^5.20.0
         version: 5.20.0
@@ -1670,6 +1673,10 @@ packages:
     resolution: {integrity: sha512-quyMrVt6svPS7CjQ9gKb3GLEX/rl3BCL2oa/QkNcXv4YNVBC9olt3s+H7ukto06q7B1Qz46PbrKLO34PR6vXcA==}
     engines: {node: '>=14'}
     hasBin: true
+
+  prismjs@1.30.0:
+    resolution: {integrity: sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw==}
+    engines: {node: '>=6'}
 
   property-expr@2.0.6:
     resolution: {integrity: sha512-SVtmxhRE/CGkn3eZY1T6pC8Nln6Fr/lu1mKSgRud0eC73whjGfoAogbn78LkD8aFL0zz3bAFerKSnOl7NlErBA==}
@@ -3509,6 +3516,8 @@ snapshots:
       svelte: 5.20.0
 
   prettier@3.5.0: {}
+
+  prismjs@1.30.0: {}
 
   property-expr@2.0.6:
     optional: true
