@@ -1,21 +1,64 @@
 <script lang="ts">
+	import { BicepsFlexed } from 'lucide-svelte';
+	import { Sparkles } from 'lucide-svelte';
 
+	import * as Avatar from '$lib/components/ui/avatar/index.js';
 </script>
-<div class="">
+
+<div class="flex flex-col gap-y-16">
 	<header class="flex flex-col gap-3 pb-4">
-		<h1 class="text-3xl font-semibold">🚀DevPloy คืออะไร?</h1>
+		<h1 class="text-3xl font-bold">🚀What is DevPloy?</h1>
 		<p class="text-base text-muted-foreground">
-			เว็ปแอปพลิเคชันให้บริการรูปแบบ PaaS สำหรับบุคลากร และ นักศึกษาใน
-			สถาบันเทคโนโลยีพระจอมเกล้าคุณทหารลาดกระบัง.
+			Web Application PaaS base for student and staff in KMITL (King Mongkut's Institute of
+			Technology Ladkrabang).
+		</p>
+
+		<p class="text-base text-pretty text-justify text-clip">
+			DevPloy is an project open-source that provides deployment services to web applications that
+			users want to use in real life. It is a web application in the form of a Platform-as-a-Service
+			(PaaS). The system is designed to work efficiently and can be controlled. DevPloy is based on
+			a web application that provides the same Deployment service called
+			<a href="https://iserv.kmitl.ac.th/" class="underline underline-offset-4 cursor-pointer"
+				>Iserv
+			</a>
+			which was the inspiration to develop and solve the limitations that the original website had.
+		</p>
+		<p class="font-bold pt-6">So why we should use DevPloy?</p>
+		<p>
+			Devploy is developed to focus on helping students in KMITL with a focus on <span
+				class="font-semibold">Efficiency</span
+			>, <span class="font-semibold">Ease of use</span> and <span class="font-semibold">Free</span> for
+			everyone in KMITL.
 		</p>
 	</header>
 
-	<section class="">
-		<p>
-			DevPloy ถูกจัดทำเพื่อให้บริการด้านการ Deployment
-			ให้กับเว็บแอปพลิเคชันที่ผู้ใช้งานต้องการจะนำไปใช้งานจริง เว็ปแอปพลิเคชันเป็นรูปแบบ Platform-as-a-Service
-			(PaaS) ระบบถูกแบบให้ทำงานอย่างมีประสิทธิภาพ และ สามารถควบคุมได้ โดย DevPloy
-			นั้นมีต้นแบบมาจากเว็บแอปพิลเคชันที่ให้บริการ Deployment รูปแบบเดียวกันที่ชื่อว่า Iserv 
-		</p>
+	<section class="flex flex-col gap-6">
+		<h1 class="text-3xl font-bold">🔨Developers Team</h1>
+		<div class="grid md:grid-cols-3 grid-row-3">
+			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2">
+				<Avatar.Root class="size-28">
+					<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
+					<Avatar.Fallback>CN</Avatar.Fallback>
+				</Avatar.Root>
+				<p class="font-semibold">Assoc. Prof. Dr Panwit Tuwanut</p>
+				<p class="text-muted-foreground text-sm">Project Adviser</p>
+			</div>
+			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2">
+				<Avatar.Root class="size-28">
+					<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
+					<Avatar.Fallback>CN</Avatar.Fallback>
+				</Avatar.Root> 
+				<p class="font-semibold">Mr. Khemmathiti Wangsaptawee </p>
+				<p class="text-muted-foreground text-sm">Software Developer</p>
+			</div>
+			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2">
+				<Avatar.Root class="size-28">
+					<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
+					<Avatar.Fallback>CN</Avatar.Fallback>
+				</Avatar.Root>
+				<p class="font-semibold">Mr. Thavith Javisooth</p>
+				<p class="text-muted-foreground text-sm">Software Developer</p>
+			</div>
+		</div>
 	</section>
 </div>
