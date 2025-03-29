@@ -74,7 +74,6 @@
 <div>
 	<div class="p-4">
 		<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Config Server</h3>
-		{baseurl + ' ' + reservePort}
 	</div>
 	<div class="mx-auto w-1/2">
 		<form method="POST" use:enhance class="flex flex-col">
