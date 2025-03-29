@@ -73,7 +73,8 @@
 	let numEnv = $state(0);
 
 	const envArray = env ? env.map((item: string) => {
-		const [key, value] = item.split('=');
+		const [key, ...rest] = item.split('=');
+		const value = rest.join('=');
 		return { key, value };
 	}) : [];
 
