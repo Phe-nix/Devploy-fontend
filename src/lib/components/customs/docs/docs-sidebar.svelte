@@ -16,7 +16,11 @@
 			{
 				title: "Applications",
 				url: '/docs/applications'
-			}
+			},
+			{
+				title: "Databases",
+				url: '/docs/databases'
+			},
 		]
 	}
 </script>

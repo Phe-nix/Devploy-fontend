@@ -40,7 +40,7 @@
 		<div class="grid md:grid-cols-3 grid-row-3 place-content-center gap-4">
 			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2">
 				<Avatar.Root class="size-28">
-					<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
+					<Avatar.Image src="/imgs/devTeams/Panwit-300x300.jpg" alt="@shadcn" />
 					<Avatar.Fallback>CN</Avatar.Fallback>
 				</Avatar.Root>
 				<p class="font-semibold">Assoc. Prof. Dr Panwit Tuwanut</p>
@@ -48,7 +48,7 @@
 			</div>
 			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2">
 				<Avatar.Root class="size-28">
-					<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
+					<Avatar.Image src="/imgs/devTeams/Tong.jpg" alt="@shadcn" />
 					<Avatar.Fallback>CN</Avatar.Fallback>
 				</Avatar.Root>
 				<p class="font-semibold">Mr. Khemmathiti Wangsaptawee</p>
@@ -56,7 +56,7 @@
 			</div>
 			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2">
 				<Avatar.Root class="size-28">
-					<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
+					<Avatar.Image src="/imgs/devTeams/Gun.jpg" alt="@shadcn" />
 					<Avatar.Fallback>CN</Avatar.Fallback>
 				</Avatar.Root>
 				<p class="font-semibold">Mr. Thavith Javisooth</p>
