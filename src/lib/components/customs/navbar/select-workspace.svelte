@@ -13,12 +13,16 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
+	import * as Form from '$lib/components/ui/form/index.js';
 
 	import { page } from '$app/stores';
 	import { goto, invalidate, invalidateAll } from '$app/navigation';
 	import axios from 'axios';
 	import { PUBLIC_BASE_API } from '$env/static/public';
 	import { toast } from 'svelte-sonner';
+	import { z } from 'zod';
+	import { type SuperValidated, superForm, defaults } from 'sveltekit-superforms';
+	import { zod, zodClient } from 'sveltekit-superforms/adapters';
 
 	let { workspaces } = $props();
 	let workspaceName = $state('');
@@ -83,6 +87,25 @@
 
 		tick().then(() => document.getElementById(triggerId)?.focus());
 	}
+
+	const formWorkspace = z.object({
+		name: z.string().min(2).max(15)
+	});
+	type FormSchemaWorkspace = typeof formWorkspace;
+
+	const form = superForm(defaults(zod(formWorkspace)), {
+		SPA: true,
+		validators: zodClient(formWorkspace),
+		onUpdate({ form }) {
+			if (form.valid) {
+				workspaceName = form.data.name;
+				createWorkspace();
+			} else {
+				toast.error('Something was wrong');
+			}
+		}
+	});
+	const { form: formData, enhance } = form;
 </script>
 
 <Dialog.Root bind:open={showTeamDialog}>
@@ -166,17 +189,22 @@
 			<Dialog.Title>Create new workspace</Dialog.Title>
 			<Dialog.Description>Add a new workspace to manage products and customers.</Dialog.Description>
 		</Dialog.Header>
-		<div>
-			<div class="space-y-4 py-2 pb-4">
-				<div class="space-y-2">
-					<Label for="name">name</Label>
-					<Input bind:value={workspaceName} id="name" placeholder="Acme Inc." />
-				</div>
-			</div>
-		</div>
-		<Dialog.Footer>
-			<Button variant="outline" onclick={() => (showTeamDialog = false)}>Cancel</Button>
-			<Button type="submit" onclick={() => createWorkspace()}>Continue</Button>
-		</Dialog.Footer>
+		<form method="POST" use:enhance class="flex flex-col">
+			<Form.Field {form} name="name">
+				<Form.Control>
+					{#snippet children({ props })}
+						<div class="flex items-center gap-2">
+							<Form.Label>name</Form.Label>
+						</div>
+						<Input type="text" {...props} bind:value={$formData.name} />
+					{/snippet}
+				</Form.Control>
+				<Form.FieldErrors />
+			</Form.Field>
+			<Dialog.Footer>
+				<Button variant="outline" onclick={() => (showTeamDialog = false)}>Cancel</Button>
+				<Form.Button class="self-end">Create</Form.Button>
+			</Dialog.Footer>
+		</form>
 	</Dialog.Content>
 </Dialog.Root>
