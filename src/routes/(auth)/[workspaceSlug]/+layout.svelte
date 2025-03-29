@@ -1,15 +1,18 @@
 <script lang="ts">
-
-    // import components
+	// import components
 	import Navbar from '$lib/components/customs/navbar/navbar.svelte';
 
-    // import data
+	// import data
 	import type { LayoutProps } from './$types';
 
-    let { data, children }: LayoutProps = $props();
+	let { data, children }: LayoutProps = $props();
+	let workspace = $state(data);
+	$effect(() => {
+		workspace = data;
+	});
 </script>
 
-<Navbar workspaces={data} />
+<Navbar workspaces={workspace} />
 <div class="max-w-sm w-full md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto min-h-full">
-    {@render children()}
+	{@render children()}
 </div>
