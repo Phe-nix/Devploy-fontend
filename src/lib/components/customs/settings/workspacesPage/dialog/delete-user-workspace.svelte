@@ -20,7 +20,7 @@
 		toast.promise(res, {
 			loading: 'Loading...',
 			success: (data) => {
-				goto(`/${$page.params.workspaceSlug}/settings/workspaces`, {
+				goto(`/`, {
 					invalidateAll: true
 				});
 				return slug + ' has been deleted';
@@ -32,10 +32,7 @@
 	};
 
 	const leaveWorkspace = async () => {
-		const req = axios.delete(`${PUBLIC_BASE_API}/workspace/${slug}/member`, {
-			data: {
-				email: permisstion.userProfile.email
-			},
+		const req = axios.delete(`${PUBLIC_BASE_API}/workspace/${slug}/leave`, {
 			headers: {
 				authorization: `Bearer ${permisstion.accessToken}`
 			}
@@ -44,6 +41,7 @@
 			loading: 'Loading...',
 			success: (data) => {
 				invalidateAll();
+				goto('/')
 				return 'You have been leaved workspace';
 			},
 			error: (e: any) => {
