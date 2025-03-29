@@ -30,7 +30,7 @@
 						<p class="text-muted-foreground text-sm">{workspace.permission[0].role}</p>
 					</div>
 				</div>
-				{#if workspace == data.workspace[0]}
+				{#if workspace.name == data.userProfile.firstName + "'s Workspace"}
 					<div class="space-x-4 hidden"></div>
 				{:else}
 					<div class="flex space-x-4">
