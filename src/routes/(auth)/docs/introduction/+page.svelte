@@ -38,7 +38,7 @@
 	<section class="flex flex-col gap-6">
 		<h1 class="text-3xl font-bold">🔨Developers Team</h1>
 		<div class="grid md:grid-cols-3 grid-row-3 place-content-center gap-4">
-			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2">
+			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2 rounded-lg">
 				<Avatar.Root class="size-28">
 					<Avatar.Image src="/imgs/devTeams/Panwit-300x300.jpg" alt="@shadcn" />
 					<Avatar.Fallback>CN</Avatar.Fallback>
@@ -46,7 +46,7 @@
 				<p class="font-semibold">Assoc. Prof. Dr Panwit Tuwanut</p>
 				<p class="text-muted-foreground text-sm">Project Adviser</p>
 			</div>
-			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2">
+			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2 rounded-lg">
 				<Avatar.Root class="size-28">
 					<Avatar.Image src="/imgs/devTeams/Tong.jpg" alt="@shadcn" />
 					<Avatar.Fallback>CN</Avatar.Fallback>
@@ -54,9 +54,9 @@
 				<p class="font-semibold">Mr. Khemmathiti Wangsaptawee</p>
 				<p class="text-muted-foreground text-sm">Software Developer</p>
 			</div>
-			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2">
+			<div class="bg-card border p-2 flex flex-col text-center items-center gap-2 w-1/2 rounded-lg">
 				<Avatar.Root class="size-28">
-					<Avatar.Image src="/imgs/devTeams/Gun.jpg" alt="@shadcn" />
+					<Avatar.Image class="bg-cover" src="/imgs/devTeams/Gun.jpg" alt="@shadcn" />
 					<Avatar.Fallback>CN</Avatar.Fallback>
 				</Avatar.Root>
 				<p class="font-semibold">Mr. Thavith Javisooth</p>
@@ -67,7 +67,7 @@
 	<Button class="self-end" variant="outline" onclick={() => {
 		goto('/docs/applications')
 	}}>
-		<p>WorkSpaces</p>
+		<p>Applications</p>
 		<ChevronRight />
 	</Button>
 </div>
