@@ -33,10 +33,14 @@
 					<p class="text-sm">Devploy</p>
 				</div>
 			</a>
-			<Button variant="ghost" class="text-sm font-medium text-muted-foreground" onclick={() => {
-				goto('/docs/introduction')
-			}}>Docs</Button>
-			{#if workspaces.userProfile.role == 'OWNER'}
+			<Button
+				variant="ghost"
+				class="text-sm font-medium text-muted-foreground"
+				onclick={() => {
+					goto('/docs/introduction');
+				}}>Docs</Button
+			>
+			{#if workspaces.userProfile.role == 'OWNER' || workspaces.userProfile.role == 'ADMIN'}
 				<Button
 					variant="ghost"
 					class="text-sm font-medium text-muted-foreground"
@@ -87,8 +91,10 @@
 							data-scroll-area-root
 							style="overflow: hidden;"
 						>
-							<a href="/" class="font-semibold">Docs</a>
-							<a href="/admin/Users" class="font-semibold">Server</a>
+							<a href="/docs/introduction" class="font-semibold">Docs</a>
+							{#if workspaces.userProfile.role == 'OWNER' || workspaces.userProfile.role == 'ADMIN'}
+								<a href="/admin/Users" class="font-semibold">Server</a>
+							{/if}
 						</div>
 					</div>
 				</Sheet.Content>
