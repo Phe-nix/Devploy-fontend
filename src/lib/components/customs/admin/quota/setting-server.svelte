@@ -53,7 +53,7 @@
 					toast.promise(res, {
 						loading: 'Loading...',
 						success: () => {
-							goto(`/admin/Quota`, {
+							goto(`/admin/ConfigServer`, {
 								invalidateAll: true
 							});
 							return 'Setting has been Changed';
