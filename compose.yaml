@@ -13,10 +13,18 @@ services:
       context: .
     environment:
       NODE_ENV: production
+    networks:
+      - traefik-public
     labels:
       - "traefik.enable=true"
       - 'traefik.http.routers.devploy-api.rule=Host(`devploy.dev`)'
       - 'traefik.http.services.devploy-api.loadbalancer.server.port=3000'
+      - 'traefik.http.routers.devploy-api.tls=true'
+
+
+networks:
+  traefik-public:
+    external: true
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
