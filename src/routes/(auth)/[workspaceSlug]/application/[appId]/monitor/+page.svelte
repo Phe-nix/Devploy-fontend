@@ -25,7 +25,7 @@
 		};
 
 		if (status === 'Deployed') {
-			const functionLog = new WebSocket(`http://localhost:3000/log/func/${data.appInfo.id}`);
+			const functionLog = new WebSocket(`${PUBLIC_BASE_API}/log/func/${data.appInfo.id}`);
 			functionLog.onmessage = (event) => {
 				console.log(event.data);
 				functionOut = String(event.data).split('\n');
