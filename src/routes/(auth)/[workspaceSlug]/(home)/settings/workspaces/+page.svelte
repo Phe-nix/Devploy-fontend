@@ -34,7 +34,7 @@
 					<div class="space-x-4 hidden"></div>
 				{:else}
 					<div class="flex space-x-4">
-						<EditUserWorkspace workspace={data} data={workspace} />
+						<EditUserWorkspace workspace={data} data={workspace} role={workspace.permission[0].role} />
 						<DeleteUserWorkspace
 							permisstion={data}
 							slug={workspace.slug}

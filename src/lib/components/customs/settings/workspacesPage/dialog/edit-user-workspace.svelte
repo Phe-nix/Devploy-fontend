@@ -10,7 +10,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
-	let { data, workspace } = $props();
+	let { data, workspace, role } = $props();
 	let isOpen = $state(false);
 	let name = $state(data.name);
 	const changeNameWorkspace = async () => {
@@ -48,7 +48,7 @@
 	}}
 >
 	<Dialog.Trigger>
-		<Button size="sm" class="">
+		<Button size="sm" class="" disabled={role == 'OWNER' ? false : true}>
 			<p>Edit</p>
 		</Button>
 	</Dialog.Trigger>
