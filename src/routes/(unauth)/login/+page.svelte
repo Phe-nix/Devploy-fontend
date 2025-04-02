@@ -7,9 +7,9 @@
 	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
 
 	// lib func
-	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { PUBLIC_BASE_API } from '$env/static/public';
+	import { goto } from '$app/navigation';
 
 </script>
 
@@ -32,7 +32,9 @@
 	<Card.Root class="p-8 md:p-20">
 		<Card.Content>
 			<div class="flex flex-col items-center">
-				<Button href={`${PUBLIC_BASE_API}/auth/google/login`} class="my-4 p-[1.5em]">
+				<Button onclick={() => {
+					goto('/auth/google/login');
+				}} class="my-4 p-[1.5em]">
 					<Mail class="mr-2 h-4 w-4" />
 					Login with @kmitl.ac.th
 				</Button>
