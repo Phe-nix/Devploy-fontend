@@ -77,7 +77,7 @@
 			class="w-16 self-end"
 			size="sm"
 			onclick={() => {
-				const req = axios.put(
+				const req = axios.post(
 					`${PUBLIC_BASE_API}/application/${data.appInfo.id}/url`,
 					{
 						url: newURL
