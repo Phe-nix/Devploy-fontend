@@ -17,9 +17,9 @@ services:
       - traefik-public
     labels:
       - "traefik.enable=true"
-      - 'traefik.http.routers.devploy-api.rule=Host(`devploy.dev`)'
-      - 'traefik.http.services.devploy-api.loadbalancer.server.port=3000'
-      - 'traefik.http.routers.devploy-api.tls=true'
+      - 'traefik.http.routers.devploy-web.rule=Host(`devploy.dev`)'
+      - 'traefik.http.services.devploy-web.loadbalancer.server.port=3000'
+      - 'traefik.http.routers.devploy-web.tls=true'
 
 
 networks:
