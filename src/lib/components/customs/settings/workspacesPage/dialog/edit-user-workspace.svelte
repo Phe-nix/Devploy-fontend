@@ -41,39 +41,41 @@
 	};
 </script>
 
-<Dialog.Root
-	open={isOpen}
-	onOpenChange={(open) => {
-		isOpen = open;
-	}}
->
-	<Dialog.Trigger>
-		<Button size="sm" class="" disabled={role == 'OWNER' ? false : true}>
-			<p>Edit</p>
-		</Button>
-	</Dialog.Trigger>
-	<Dialog.Content class="sm:max-w-[425px]">
-		<Dialog.Header>
-			<Dialog.Title>Edit <span class="italic">{name}</span></Dialog.Title>
-			<Dialog.Description>
-				Make changes to your service here. Click save when you're done.
-			</Dialog.Description>
-		</Dialog.Header>
-		<form
-			onsubmit={() => {
-				changeNameWorkspace();
-				isOpen = false
-			}}
-		>
-			<div class="grid gap-4 py-4">
-				<div class="grid grid-cols-4 items-center gap-4">
-					<Label for="name" class="text-right">Name</Label>
-					<Input id="name" bind:value={name} class="col-span-3" />
+{#if role == 'OWNER'}
+	<Dialog.Root
+		open={isOpen}
+		onOpenChange={(open) => {
+			isOpen = open;
+		}}
+	>
+		<Dialog.Trigger>
+			<Button size="sm" class="">
+				<p>Edit</p>
+			</Button>
+		</Dialog.Trigger>
+		<Dialog.Content class="sm:max-w-[425px]">
+			<Dialog.Header>
+				<Dialog.Title>Edit <span class="italic">{name}</span></Dialog.Title>
+				<Dialog.Description>
+					Make changes to your service here. Click save when you're done.
+				</Dialog.Description>
+			</Dialog.Header>
+			<form
+				onsubmit={() => {
+					changeNameWorkspace();
+					isOpen = false;
+				}}
+			>
+				<div class="grid gap-4 py-4">
+					<div class="grid grid-cols-4 items-center gap-4">
+						<Label for="name" class="text-right">Name</Label>
+						<Input id="name" bind:value={name} class="col-span-3" />
+					</div>
 				</div>
-			</div>
-			<Dialog.Footer>
-				<Button type="submit">Save changes</Button>
-			</Dialog.Footer>
-		</form>
-	</Dialog.Content>
-</Dialog.Root>
+				<Dialog.Footer>
+					<Button type="submit">Save changes</Button>
+				</Dialog.Footer>
+			</form>
+		</Dialog.Content>
+	</Dialog.Root>
+{/if}
