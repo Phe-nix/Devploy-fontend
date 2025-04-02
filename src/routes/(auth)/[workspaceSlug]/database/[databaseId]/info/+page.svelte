@@ -16,6 +16,7 @@
 	import { Lock } from 'lucide-svelte';
 	import { Eye } from 'lucide-svelte';
 	import { EyeClosed } from 'lucide-svelte';
+	import { Globe } from 'lucide-svelte';
 
 	type Props = {
 		data: PageData;
@@ -76,14 +77,14 @@
 	<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Database Deployment</h3>
 	<div class="flex gap-3">
 		<Button
-			disabled={data.databaseInfo.status == "Deployed"}
+			disabled={data.databaseInfo.status == 'Deployed'}
 			size="sm"
 			onclick={() => {
 				startDB();
 			}}>Start</Button
 		>
 		<Button
-			disabled={data.databaseInfo.status == "notStarted"}
+			disabled={data.databaseInfo.status == 'notStarted'}
 			size="sm"
 			onclick={() => {
 				stopDB();
@@ -93,6 +94,13 @@
 	<Separator />
 	<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Database info</h3>
 	<div class="grid grid-cols-2 gap-4">
+		<div class="flex flex-col gap-2">
+			<Label class="text-muted-foreground">URL</Label>
+			<div class="flex items-center gap-2">
+				<Globe class="size-5" />
+				<p class="font-semibold">{`db.${data.baseSetting.baseUrl}`}</p>
+			</div>
+		</div>
 		<div class="flex flex-col gap-2">
 			<Label class="text-muted-foreground">Name</Label>
 			<div class="flex items-center gap-2">
@@ -136,7 +144,7 @@
 				{#if isShowPass == true}
 					<p class="font-semibold">{data.databaseInfo.password}</p>
 				{:else}
-				<p class="font-semibold">*******</p>
+					<p class="font-semibold">*******</p>
 				{/if}
 				<Button
 					variant="ghost"
